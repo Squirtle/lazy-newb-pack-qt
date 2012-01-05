@@ -194,7 +194,7 @@ void cpDir1(QDir from, QStringList &list)
 
 void cpDir2(QDir from, QDir to, QStringList list)
 {
-    //TODO: Error handling blargh
+    //TODO: Error handling
     foreach (QString file, list)
     {
         QFile filefrom(file);
@@ -205,7 +205,7 @@ void cpDir2(QDir from, QDir to, QStringList list)
 
 void cpDir(QDir from, QDir to)
 {
-    //TODO: Also error handling ugh
+    //TODO: Error handling
     QStringList list;
     cpDir1(from, list);
     cpDir2(from, to, list);

@@ -266,7 +266,7 @@ void KeyFrame::refresh_pressed()
 
 void KeyFrame::save_pressed()
 {
-    //TODO: Error handling bluh
+    //TODO: Error handling
     bool ok;
     QString newfilename = QInputDialog::getText(this, tr("Save Keybinding"), tr("Save current keybindings as:"), QLineEdit::Normal, model->data(view->currentIndex(), Qt::DisplayRole).toString(), &ok);
     QFile newfile(tr("./LNP/Keybinds/") + newfilename), file(getDFFolder() + tr("/data/init/interface.txt"));
