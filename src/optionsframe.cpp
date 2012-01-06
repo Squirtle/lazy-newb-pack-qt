@@ -229,31 +229,25 @@ void KeyFrame::load_pressed()
     file1.close();
     ok = file2.open(QFile::WriteOnly | QFile::Truncate);
     if(!ok) {
-        QMessageBox::critical(this, "Error Opening File", QString("The interface file '%1' could not be opened").arg(file2.fileName()));
+        QMessageBox::critical(this, tr("Error Opening File"), tr("The interface file '%1' could not be opened").arg(file2.fileName()));
         return;
     }
     file2.write(buffer);
     file2.close();
-    QMessageBox::information(this, "Keybinds Opened", QString("Successfully opened the keybinds file '%1'").arg(keybinds_filename));
+    QMessageBox::information(this, tr("Keybinds Opened"), tr("Successfully opened the keybinds file '%1'").arg(keybinds_filename));
 }
 
 void KeyFrame::del_pressed()
 {
-    QString selected = model->data(view->currentIndex(), Qt::DisplayRole).toString();
-    QFile file(tr("./LNP/Keybinds/") + selected);
-    bool ok1 = file.remove();
-    bool ok2 = model->removeRow(view->currentIndex().row());
+    const QString selected = model->data(view->currentIndex(), Qt::DisplayRole).toString();
+    QFile file("./LNP/Keybinds/" + selected);
+    bool ok = file.remove();
+    if(!ok) {
+        QMessageBox::critical(this, tr("Delete Failed"), tr("Could not delete the file '%1'").arg(file.fileName()));
+    }
+    model->removeRow(view->currentIndex().row());
     view->update();
-    if (ok1 && ok2)
-    {
-        QMessageBox msg;
-        msg.setText(tr("Sucessfully deleted ") + selected);
-        msg.exec();
-    }
-    else
-    {
-        //error handling
-    }
+    QMessageBox::information(this, tr("Deleted File"), tr("Sucessfully deleted the file '%1'").arg(file.fileName()));
 }
 
 void KeyFrame::refresh_pressed()
