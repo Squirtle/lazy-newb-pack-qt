@@ -155,8 +155,8 @@ void StartupFrame::windowed_pressed()
 void SaveFrame::autosave_pressed()
 {
     QString frequencies[] = {tr("NONE"), tr("YEARLY"), tr("SEASONAL")};
-    int newfrequency = 0;
-    for (int i = 0; i < sizeof(frequencies)/sizeof(frequencies[0]); i++)
+    unsigned int newfrequency = 0;
+    for (unsigned int i = 0; i < sizeof(frequencies)/sizeof(frequencies[0]); i++)
     {
         if (frequencies[i] == getOption(tr("AUTOSAVE")))
             {
@@ -216,16 +216,15 @@ void SaveFrame::autobackup_pressed()
 
 void AdvancedFrame::procpriority_pressed()
 {
-    QString priorities[] = {tr("IDLE"), tr("BELOW_NORMAL"), tr("NORMAL"), tr("ABOVE_NORMAL"), tr("HIGH"), tr("REALTIME")};
-    int newpriority = 0;
-    for (int i = 0; i < sizeof(priorities)/sizeof(priorities[0]); i++)
-    {
-        if (priorities[i] == getOption(tr("PRIORITY")))
-            {
-                newpriority = i + 1;
-            }
+    QStringList priorities;
+    priorities << "IDLE" << "BELOW_NORMAL" << "NORMAL" << "HIGH" << "REALTIME";
+    unsigned int newpriority = 0;
+    for(int i = 0; i < priorities.length(); ++i) {
+        if (priorities.at(i) == getOption("PRIORITY")) {
+            newpriority = i + 1;
+        }
     }
-    if (newpriority > sizeof(priorities)/sizeof(priorities[0]) - 1)
+    if (newpriority > priorities.length() - 1)
         newpriority = 0;
     setOption(tr("PRIORITY"), priorities[newpriority]);
     procpriority->setText(tr("Processor Priority: ") + getOption(tr("PRIORITY")));
