@@ -4,7 +4,21 @@ Currently, the only operating system supported is Linux, but support for OS X an
 
 Dependencies
 ------------
-The only dependency for the qt Lazy Newb Pack GUI is qt 4.8, though Dwarf Fortress itself requires GTK+ 2+, SDL 1.2+, and SDL_image. Since you will need to compile the qt LNP GUI, you will need the qt headers as well. If you are using a distribution which separates these from the main package, such as Ubuntu or Debian, this means installing the dev package.
+The only dependency for the qt Lazy Newb Pack GUI is qt 4.8, though Dwarf Fortress itself requires GTK+ 2+, SDL 1.2+, and SDL\_image. Since you will need to compile the qt LNP GUI, you will need the qt headers as well. If you are using a distribution which separates these from the main package, such as Ubuntu or Debian, this means installing the dev package.
+
+Compile
+-------
+**With Qt Creator**:
+
+Simply open the `Lazy Newb Pack.pro` project file in Qt Creator and build as
+normal.
+
+**Manually (command line)**
+
+Compile the GUI with:
+
+    cd lazy-newb-pack-qt/
+    qmake && make
 
 Install
 -------
@@ -12,7 +26,7 @@ To install the qt Lazy Newb Pack GUI, you will first need a copy of the Windows 
 
 Once you have downloaded and extracted the Windows version of the LNP, delete the Dwarf Fortress folder and replace it with a folder with the linux version of DF. The name of the folder has to contain the string 'Dwarf Fortress' (without quotes) to work.
 
-Then use the qmake && make && make clean command to compile the GUI, and copy the Lazy Newb Pack executable to the folder of the windows version of the LNP.
+Copy the Lazy Newb Pack executable to the folder of the windows version of the LNP.
 
 Goals
 -----
