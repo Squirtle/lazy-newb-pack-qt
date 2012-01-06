@@ -15,6 +15,12 @@ ChangeFrame::ChangeFrame()
 
     list = new QStringList(getContents(tr("./LNP/Graphics/"), true));
     model = new StringListModel(*list);
+
+    connect(install, SIGNAL(pressed()), this, SLOT(install_pressed()));
+    connect(upgrade, SIGNAL(pressed()), this, SLOT(upgrade_pressed()));
+    connect(truetype, SIGNAL(pressed()), this, SLOT(truetype_pressed()));
+    connect(update, SIGNAL(pressed()), this, SLOT(update_pressed()));
+
     view->setModel(model);
     grid->addWidget(view, 0, 0, 1, 2);
     grid->addWidget(install, 1, 0, 1, 1);
