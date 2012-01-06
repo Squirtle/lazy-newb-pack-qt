@@ -22,7 +22,7 @@ Compile the GUI with:
 
 Install
 -------
-To install the qt Lazy Newb Pack GUI, you will first need a copy of the Windows version of the LNP, which you can grab at http://dffd.wimbli.com/file.php?id=2801 or http://www.mediafire.com/?hwcjhh5j4jyus.
+To install the Qt Lazy Newb Pack GUI, you will first need a copy of the Windows version of the LNP, which you can grab at http://dffd.wimbli.com/file.php?id=2801 or http://www.mediafire.com/?hwcjhh5j4jyus.
 
 Once you have downloaded and extracted the Windows version of the LNP, delete the Dwarf Fortress folder and replace it with a folder with the linux version of DF. The name of the folder has to contain the string 'Dwarf Fortress' (without quotes) to work.
 
@@ -34,15 +34,20 @@ The primary goal of this project is to provide a cross-platform version of the L
 
 Progress
 --------
-GUI (Partially complete)
-  Bottom buttons (Completed)
-    Init editor (Completed)
-  Tabs (Partially complete)
-    Options tab (Completed)
-    Graphics tab (Partially complete)
-    Utilities tab (Not yet begun)
-    Advanced tab (Completed)
-  Menu (Partially complete)
-OS X Compatibility (Not yet tested)
-Windows Compatibility (Not yet tested)
-Packaging (Not yet begun)
+
+**GUI (Partially complete)**
+
+* Bottom buttons (Completed)
+  * Init editor (Completed)
+* Tabs (Partially complete)
+  * Options tab (Completed)
+  * Graphics tab (Partially complete)
+  * Utilities tab (Not yet begun)
+  * Advanced tab (Completed)
+* Menu (Partially complete)
+
+**OS X Compatibility (Not yet tested)**
+
+**Windows Compatibility (Not yet tested)**
+
+**Packaging (Not yet begun)**
