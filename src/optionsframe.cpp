@@ -216,25 +216,25 @@ void ModFrame::exotic_pressed()
 
 void KeyFrame::load_pressed()
 {
-    QFile file1(tr("./LNP/Keybinds/") + model->data(view->currentIndex(), Qt::DisplayRole).toString()), file2(getDFFolder() + tr("/data/init/interface.txt"));
-    bool ok1 = file1.open(QFile::ReadOnly);
-    QByteArray *buffer = new QByteArray(file1.readAll());
+    const QString keybinds_filename( model->data(view->currentIndex(), Qt::DisplayRole).toString() );
+    QFile file1("./LNP/Keybinds/" + keybinds_filename);
+    QFile file2(getDFFolder() + "/data/init/interface.txt");
+    bool ok = file1.open(QFile::ReadOnly);
+    if(!ok) {
+        QMessageBox::critical(this, "Error Opening File", QString("The keybinds file '%1' could not be opened").arg(keybinds_filename));
+        return;
+    }
+
+    QByteArray buffer(file1.readAll());
     file1.close();
-    bool ok2 = file2.open(QFile::WriteOnly | QFile::Truncate);
-    file2.write(*buffer);
+    ok = file2.open(QFile::WriteOnly | QFile::Truncate);
+    if(!ok) {
+        QMessageBox::critical(this, "Error Opening File", QString("The interface file '%1' could not be opened").arg(file2.fileName()));
+        return;
+    }
+    file2.write(buffer);
     file2.close();
-    delete buffer;
-    bool ok = ok1 && ok2;
-    if (ok)
-    {
-        QMessageBox msg;
-        msg.setText(tr("Sucessfully loaded ") + model->data(view->currentIndex(), Qt::DisplayRole).toString());
-        msg.exec();
-    }
-    else
-    {
-        //error handling
-    }
+    QMessageBox::information(this, "Keybinds Opened", QString("Successfully opened the keybinds file '%1'").arg(keybinds_filename));
 }
 
 void KeyFrame::del_pressed()
