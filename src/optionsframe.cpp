@@ -244,7 +244,7 @@ void KeyFrame::del_pressed()
     bool ok1 = file.remove();
     bool ok2 = model->removeRow(view->currentIndex().row());
     view->update();
-    if (ok1)
+    if (ok1 && ok2)
     {
         QMessageBox msg;
         msg.setText(tr("Sucessfully deleted ") + selected);

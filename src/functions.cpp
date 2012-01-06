@@ -213,6 +213,7 @@ void cpDir(QDir from, QDir to)
 
 int StringListModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return stringList.count();
 }
 
@@ -244,6 +245,7 @@ QVariant StringListModel::headerData(int section, Qt::Orientation orientation,
 
 bool StringListModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent);
     for (int i = row; i < row + count; i++)
     {
        stringList.removeAt(i);
@@ -253,6 +255,7 @@ bool StringListModel::removeRows(int row, int count, const QModelIndex &parent)
 
 bool StringListModel::insertRows(int row, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent);
     for (int i = row; i < row + count; i++)
     {
         stringList.insert(i, "");
