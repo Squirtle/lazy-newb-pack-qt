@@ -216,44 +216,38 @@ void ModFrame::exotic_pressed()
 
 void KeyFrame::load_pressed()
 {
-    QFile file1(tr("./LNP/Keybinds/") + model->data(view->currentIndex(), Qt::DisplayRole).toString()), file2(getDFFolder() + tr("/data/init/interface.txt"));
-    bool ok1 = file1.open(QFile::ReadOnly);
-    QByteArray *buffer = new QByteArray(file1.readAll());
+    const QString keybinds_filename( model->data(view->currentIndex(), Qt::DisplayRole).toString() );
+    QFile file1("./LNP/Keybinds/" + keybinds_filename);
+    QFile file2(getDFFolder() + "/data/init/interface.txt");
+    bool ok = file1.open(QFile::ReadOnly);
+    if(!ok) {
+        QMessageBox::critical(this, "Error Opening File", QString("The keybinds file '%1' could not be opened").arg(keybinds_filename));
+        return;
+    }
+
+    QByteArray buffer(file1.readAll());
     file1.close();
-    bool ok2 = file2.open(QFile::WriteOnly | QFile::Truncate);
-    file2.write(*buffer);
+    ok = file2.open(QFile::WriteOnly | QFile::Truncate);
+    if(!ok) {
+        QMessageBox::critical(this, tr("Error Opening File"), tr("The interface file '%1' could not be opened").arg(file2.fileName()));
+        return;
+    }
+    file2.write(buffer);
     file2.close();
-    delete buffer;
-    bool ok = ok1 && ok2;
-    if (ok)
-    {
-        QMessageBox msg;
-        msg.setText(tr("Sucessfully loaded ") + model->data(view->currentIndex(), Qt::DisplayRole).toString());
-        msg.exec();
-    }
-    else
-    {
-        //error handling
-    }
+    QMessageBox::information(this, tr("Keybinds Opened"), tr("Successfully opened the keybinds file '%1'").arg(keybinds_filename));
 }
 
 void KeyFrame::del_pressed()
 {
-    QString selected = model->data(view->currentIndex(), Qt::DisplayRole).toString();
-    QFile file(tr("./LNP/Keybinds/") + selected);
-    bool ok1 = file.remove();
-    bool ok2 = model->removeRow(view->currentIndex().row());
+    const QString selected = model->data(view->currentIndex(), Qt::DisplayRole).toString();
+    QFile file("./LNP/Keybinds/" + selected);
+    bool ok = file.remove();
+    if(!ok) {
+        QMessageBox::critical(this, tr("Delete Failed"), tr("Could not delete the file '%1'").arg(file.fileName()));
+    }
+    model->removeRow(view->currentIndex().row());
     view->update();
-    if (ok1)
-    {
-        QMessageBox msg;
-        msg.setText(tr("Sucessfully deleted ") + selected);
-        msg.exec();
-    }
-    else
-    {
-        //error handling
-    }
+    QMessageBox::information(this, tr("Deleted File"), tr("Sucessfully deleted the file '%1'").arg(file.fileName()));
 }
 
 void KeyFrame::refresh_pressed()
@@ -266,41 +260,42 @@ void KeyFrame::refresh_pressed()
 
 void KeyFrame::save_pressed()
 {
-    //TODO: Error handling
     bool ok;
     QString newfilename = QInputDialog::getText(this, tr("Save Keybinding"), tr("Save current keybindings as:"), QLineEdit::Normal, model->data(view->currentIndex(), Qt::DisplayRole).toString(), &ok);
-    QFile newfile(tr("./LNP/Keybinds/") + newfilename), file(getDFFolder() + tr("/data/init/interface.txt"));
-    if (ok)
+    QFile newfile("./LNP/Keybinds/" + newfilename);
+    QFile file(getDFFolder() + "/data/init/interface.txt");
+    if(!ok) // the user pressed cancel
+        return;
+
+    int sure = -1;
+    if (newfile.exists())
     {
-        int sure = -1;
-        if (newfile.exists()) 
-        {
-            QMessageBox dialog;
-            dialog.setText(("This keybinding already exists.  Do you want to override it?"));
-            dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
-            dialog.setDefaultButton(QMessageBox::Cancel);
-            sure = dialog.exec();
+        QMessageBox dialog;
+        dialog.setInformativeText(tr("This keybinding already exists.  Do you want to override it?"));
+        dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+        dialog.setDefaultButton(QMessageBox::Cancel);
+        sure = dialog.exec();
+    }
+    if (sure == QMessageBox::Yes || !newfile.exists())
+    {
+        bool ok = file.open(QFile::ReadOnly);
+        if(!ok) {
+            QMessageBox::critical(this, tr("Error Opening File"), tr("The file '%1' could not be opened").arg(file.fileName()));
+            return;
         }
-        if (sure == QMessageBox::Yes || !newfile.exists())
-        {
-            bool ok1 = file.open(QFile::ReadOnly);
-            QByteArray *buffer = new QByteArray(file.readAll());
-            file.close();
-            bool ok2 = newfile.open(QFile::WriteOnly | QFile::Truncate);
-            newfile.write(*buffer);
-            newfile.close();
-            delete buffer;
-            bool ok3 = ok1 && ok2;
-            if (ok3)
-            {
-                QMessageBox msg;
-                msg.setText(tr("Sucessfully saved current keybindings as ") + newfilename);
-                msg.exec();
-            }
-            getKeybindings(*list);
-            model = new StringListModel(*list);
-            view->setModel(model);
-            view->update();
+        QByteArray buffer(file.readAll());
+        file.close();
+        ok = newfile.open(QFile::WriteOnly | QFile::Truncate);
+        if(!ok) {
+            QMessageBox::critical(this, tr("Error Opening File"), tr("The file '%1' could not be opened").arg(newfile.fileName()));
+            return;
         }
+        newfile.write(buffer);
+        newfile.close();
+        QMessageBox::information(this, tr("Keybindings Saved"), tr("Sucessfully saved current keybindings as '%1'").arg(newfilename));
+        getKeybindings(*list);
+        model = new StringListModel(*list);
+        view->setModel(model);
+        view->update();
     }
 }
