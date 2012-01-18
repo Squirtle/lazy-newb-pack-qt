@@ -92,13 +92,12 @@ void LNPLauncher::play_pressed()
         // Work around for bug in Debian/Ubuntu SDL patch.
         env.insert( "SDL_DISABLE_LOCK_KEYS", "1");
 
-        // Centre the screen.  Messes up resizing.
+        // Center the screen.  Messes up resizing. TODO: who/what needs this?
         //env.insert( "SDL_VIDEO_CENTERED", "1");
 
         DwarfFortressProcess *df = new DwarfFortressProcess(this);
         df->setWorkingDirectory(DwarfFortress::instance().getDFFolder());
         df->setProcessEnvironment(env);
-        qDebug() << df->workingDirectory() << df->processEnvironment().toStringList();
         df->start("./libs/Dwarf_Fortress");
 
     #endif
