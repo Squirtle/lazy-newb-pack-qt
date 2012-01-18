@@ -4,9 +4,12 @@
 #include "lnplauncher.hpp"
 #include "functions.hpp"
 #include "DwarfFortress.h"
+#include "DwarfFortressProcess.h"
 
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QProcess>
+#include <QProcessEnvironment>
 
 LNPLauncher::LNPLauncher()
 {
@@ -84,7 +87,20 @@ InitDialog::InitDialog(QWidget *parent, Qt::WindowFlags f)
 void LNPLauncher::play_pressed()
 {
     #ifdef Q_WS_X11
-        QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/libs/Dwarf_Fortress\"");
+        QProcessEnvironment env(  QProcessEnvironment::systemEnvironment () );
+
+        // Work around for bug in Debian/Ubuntu SDL patch.
+        env.insert( "SDL_DISABLE_LOCK_KEYS", "1");
+
+        // Centre the screen.  Messes up resizing.
+        //env.insert( "SDL_VIDEO_CENTERED", "1");
+
+        DwarfFortressProcess *df = new DwarfFortressProcess(this);
+        df->setWorkingDirectory(DwarfFortress::instance().getDFFolder());
+        df->setProcessEnvironment(env);
+        qDebug() << df->workingDirectory() << df->processEnvironment().toStringList();
+        df->start("./libs/Dwarf_Fortress");
+
     #endif
     #ifdef Q_WS_WIN
         QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/Dwarf Fortress.exe\"");
