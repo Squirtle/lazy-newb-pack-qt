@@ -84,7 +84,7 @@ InitDialog::InitDialog(QWidget *parent, Qt::WindowFlags f)
 void LNPLauncher::play_pressed()
 {
     #ifdef Q_WS_X11
-        QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/df\"");
+        QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/libs/Dwarf_Fortress\"");
     #endif
     #ifdef Q_WS_WIN
         QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/Dwarf Fortress.exe\"");
