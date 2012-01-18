@@ -22,8 +22,11 @@ private slots:
     void liquid_pressed();
     void popcap_pressed();
     void childcap_pressed();
-    
+    void dfFolderChanged();
+
 private:
+    void populateButtons();
+
     QPushButton *economy, *temperature, *weather, *caveins, *invaders, *liquid, *popcap, *childcap;
     QGridLayout *grid;
     
@@ -39,7 +42,8 @@ public:
 private slots:
     void aquifers_pressed();
     void exotic_pressed();
-    
+    void dfFolderChanged();
+
 private:
     QPushButton *aquifers, *exotic;
     QHBoxLayout *box;
@@ -58,7 +62,7 @@ private slots:
     void del_pressed();
     void refresh_pressed();
     void save_pressed();
-    
+
 private:
     QPushButton *load, *refresh, *save, *del;
     QListView *view;
@@ -75,8 +79,6 @@ class MainOptionsFrame : public QFrame
 public:
     MainOptionsFrame();
     
-private slots:
-
 private:
     OptionFrame *oframe;
     ModFrame *mframe;

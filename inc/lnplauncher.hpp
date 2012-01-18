@@ -39,6 +39,7 @@ private slots:
     void play_pressed();
     void init_pressed();
     void defaults_pressed();
+    void change_install_pressed();
 /*  void reload(); // Reloads all options from the init files and RAWs.
     void resave(); // Resaves all options to the init files and RAWs.
     // The reload and resave functions present a problem because there is no easy way to access all the options selected in the launcher. We'll probably have to end up adding functions which will allow us to access them.
@@ -47,6 +48,8 @@ private slots:
     void link(QString URL); // Opens the link in the default web browser.
     void about(); // Opens an about dialog.
 */
+
+    void dfFolderChanged();
 
 private:
     void create_actions();
@@ -60,6 +63,7 @@ private:
     QGridLayout* grid;
     QWidget* central;
     InitDialog *dialog;
+    QLabel *df_location;
 /*  QMenu *filemenu;
     QMenu *runmenu;
     QMenu *openmenu;

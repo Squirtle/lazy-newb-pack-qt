@@ -3,13 +3,15 @@
  */
 #include "graphicsframe.hpp"
 
+#include "DwarfFortress.h"
+
 ChangeFrame::ChangeFrame()
     : QGroupBox(tr("Change Graphics"))
 {
     view = new QListView();
     install = new QPushButton(tr("Install Graphics"));
     upgrade = new QPushButton(tr("Upgrade Savegames"));
-    truetype = new QPushButton(tr("TrueType Fonts: ") + getOption("TRUETYPE"));
+    truetype = new QPushButton(tr("TrueType Fonts: ") + DwarfFortress::instance().getOption("TRUETYPE"));
     update = new QPushButton(tr("Update List"));
     grid = new QGridLayout();
 
@@ -66,7 +68,8 @@ void ChangeFrame::install_pressed()
     sure = dialog.exec();
     if (sure)
     {
-        QDir dir1(tr("./LNP/Keybinds/") + model->data(view->currentIndex(), Qt::DisplayRole).toString()), dir2(getDFFolder());
+        QDir dir1(tr("./LNP/Keybinds/") + model->data(view->currentIndex(), Qt::DisplayRole).toString());
+        QDir dir2(DwarfFortress::instance().getDFFolder());
         cpDir(dir1, dir2);
         QMessageBox success;
         success.setText(model->data(view->currentIndex(), Qt::DisplayRole).toString() + tr(" succesfully installed."));
@@ -77,7 +80,7 @@ void ChangeFrame::install_pressed()
 void ChangeFrame::upgrade_pressed()
 {
     QDir dir1(tr("./LNP/Graphics/") + model->data(view->currentIndex(), Qt::DisplayRole).toString() + tr("/raws/"));
-    QDirIterator dit(getDFFolder() + tr("/data/save/"));
+    QDirIterator dit(DwarfFortress::instance().getSavePath());
     if (!dit.hasNext())
     {
         QMessageBox error;
@@ -95,7 +98,7 @@ void ChangeFrame::upgrade_pressed()
         if (sure)
         {
             while (dit.hasNext())
-                cpDir(dir1, dit.path() + tr("/raws/"));
+                cpDir(dir1, dit.path() + "/raws/");
             QMessageBox success;
             success.setText(tr("Successfully upgraded saves!"));
             success.exec();
@@ -105,11 +108,11 @@ void ChangeFrame::upgrade_pressed()
 
 void ChangeFrame::truetype_pressed()
 {
-    if (getOption(tr("TRUETYPE")) == tr("YES"))
-        setOption(tr("TRUETYPE"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("TRUETYPE")) == "YES")
+        DwarfFortress::instance().setOption(tr("TRUETYPE"), "NO");
     else
-        setOption(tr("TRUETYPE"), tr("YES"));
-    truetype->setText(tr("TrueType Fonts: ") + getOption(tr("TRUETYPE")));
+        DwarfFortress::instance().setOption(tr("TRUETYPE"), "YES");
+    truetype->setText(tr("TrueType Fonts: ") + DwarfFortress::instance().getOption(tr("TRUETYPE")));
 }
 
 void ChangeFrame::update_pressed()

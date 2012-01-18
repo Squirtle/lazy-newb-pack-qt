@@ -30,11 +30,6 @@ private:
     QStringList stringList;
 };
 
-QString getDFFolder(); // Returns the name of the DF folder: whichever folder has the string "Dwarf Fortress" in it.
-void rawsReplace(QString old, QString replaced); // This functions searches through all the RAWs and replaces old with replaced.
-QString rawsFind(QString find); // This function searches through the RAWs and returns "YES" if find is found in them, otherwise "NO". It returns a QString instead of a boolean because it can be used more directly in the GUI code this way.
-QString getOption(QString option); // Looks through init.txt and d_init.txt for [option:value] and returns value.
-void setOption (QString option, QString newValue); // Looks through init.txt and d_init.txt for [option:value] and changes it to [option:newValue].
 void getKeybindings(QStringList& list); // Writes the list of keybinding files in ./LNP/Keybinds/ to list.
 bool copyFile(QFile& file1, QFile& file2); // Copies file1 to file2.
 QStringList getContents(QString dirname, bool folders); // Returns the contents of the directory dirname, either files or folders.
