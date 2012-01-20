@@ -22,6 +22,7 @@ private slots:
     void defaultsPressed();
     
 private:
+    bool verifyLNPData();
     void updateDFLocation();
     void setupOptionsGroup();
     Ui::MainWindow *ui;

@@ -12,6 +12,8 @@
 #include <QProcessEnvironment>
 #include <QPointer>
 #include <QMessageBox>
+#include <QDirIterator>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,12 +21,20 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    updateDFLocation();
+    const bool has_data = verifyLNPData();
+    if( !has_data ) {
+        hide();
+        QMessageBox::critical(this, tr("Cannot find LNP Data"), tr("The Lazy Newb Pack data cannot be located. The program will now quit."));
+        QTimer::singleShot(0, qApp, SLOT(quit()));
+    } else {
 
-    connect(ui->changeInstallButton, SIGNAL(clicked()), this, SLOT(changeDFPressed()));
-    connect(ui->playButton, SIGNAL(clicked()), this, SLOT(playPressed()));
-    connect(ui->initEditButton, SIGNAL(clicked()), this, SLOT(editInitPressed()));
-    connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(defaultsPressed()));
+        updateDFLocation();
+
+        connect(ui->changeInstallButton, SIGNAL(clicked()), this, SLOT(changeDFPressed()));
+        connect(ui->playButton, SIGNAL(clicked()), this, SLOT(playPressed()));
+        connect(ui->initEditButton, SIGNAL(clicked()), this, SLOT(editInitPressed()));
+        connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(defaultsPressed()));
+    }
 
 }
 
@@ -103,4 +113,16 @@ void MainWindow::updateDFLocation()
         ui->dfInstallLabel->setText(tr("Could not find a Dwarf Fortress Installation!"));
         ui->dfLocationLabel->setText(QString());
     }
+}
+
+bool MainWindow::verifyLNPData()
+{
+    QDirIterator it(".", QDir::NoDotAndDotDot | QDir::Dirs);
+    while (it.hasNext()) {
+        QString path = it.next();
+        if (path.contains("LNP")) {
+            return true;
+        }
+    }
+    return false;
 }
