@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    resize(600,500);
     updateDFLocation();
 
     connect(ui->changeInstallButton, SIGNAL(clicked()), this, SLOT(changeDFPressed()));

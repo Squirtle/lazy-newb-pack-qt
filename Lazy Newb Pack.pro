@@ -11,13 +11,15 @@ HEADERS += inc/functions.hpp inc/lnplauncher.hpp inc/optionsframe.hpp inc/advanc
     inc/DwarfFortressProcess.h \
     inc/MainWindow.h \
     inc/ConfigButton.h \
-    inc/OptionsTab.h
+    inc/OptionsTab.h \
+    inc/NumericOptionWidget.h
 SOURCES += src/functions.cpp src/lnplauncher.cpp src/main.cpp src/optionsframe.cpp src/advancedframe.cpp src/graphicsframe.cpp \ 
     src/DwarfFortress.cpp \
     src/DwarfFortressProcess.cpp \
     src/MainWindow.cpp \
     src/ConfigButton.cpp \
-    src/OptionsTab.cpp
+    src/OptionsTab.cpp \
+    src/NumericOptionWidget.cpp
 
 FORMS += \
     ui/MainWindow.ui \

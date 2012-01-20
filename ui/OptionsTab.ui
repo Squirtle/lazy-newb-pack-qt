@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="100,50,100">
    <item>
     <widget class="QGroupBox" name="optionsGroup">
      <property name="title">
