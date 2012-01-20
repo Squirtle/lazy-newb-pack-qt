@@ -3,6 +3,7 @@
 
 #include "ConfigButton.h"
 #include "NumericOptionWidget.h"
+#include "DwarfFortress.h"
 
 #include <QDebug>
 
@@ -12,6 +13,7 @@ OptionsTab::OptionsTab(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Options Group
     QGridLayout *options_layout = new QGridLayout(this);
     ui->optionsGroup->setLayout(options_layout);
     QStringList options;
@@ -32,10 +34,59 @@ OptionsTab::OptionsTab(QWidget *parent) :
     num_opt->setTooltips([this]() { QStringList l; l << tr("Absolute cap on the number of babies+children") << tr("New child cap as percentage of total population"); return l;}());
     options_layout->addWidget(num_opt, (options.length()+1)/2, (1+options.length())%2);
 
+    // Mods Group
+    m_aquifersButton = new QPushButton(tr("Aquifers: ") + DwarfFortress::instance().rawsFind("[AQUIFER]"));
+    if (DwarfFortress::instance().rawsFind("[PET_EXOTIC]") == "YES") {
+        m_exoticButton = new QPushButton(tr("Exotic Animals: ") + DwarfFortress::instance().rawsFind("[PET_EXOTIC]"));
+    } else {
+        m_exoticButton = new QPushButton(tr("Exotic Animals: ") + DwarfFortress::instance().rawsFind("[MOUNT_EXOTIC]"));
+    }
+    connect(m_aquifersButton, SIGNAL(pressed()), this, SLOT(aquifiersPressed()));
+    connect(m_exoticButton, SIGNAL(pressed()), this, SLOT(exoticPressed()));
 
+    QHBoxLayout *box = new QHBoxLayout(ui->modsGroup);
+    box->addWidget(m_aquifersButton);
+    box->addWidget(m_exoticButton);
+    ui->modsGroup->setLayout(box);
+
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dfDataChanged() ));
 }
 
 OptionsTab::~OptionsTab()
 {
     delete ui;
+}
+
+void OptionsTab::dfDataChanged()
+{
+    m_aquifersButton->setText("Aquifers: " + DwarfFortress::instance().rawsFind("[AQUIFER]"));
+    if (DwarfFortress::instance().rawsFind("[PET_EXOTIC]") == "YES")
+        m_exoticButton->setText("Exotic Animals: " + DwarfFortress::instance().rawsFind("[PET_EXOTIC]"));
+    else
+        m_exoticButton->setText("Exotic Animals: " + DwarfFortress::instance().rawsFind("[MOUNT_EXOTIC]"));
+}
+
+void OptionsTab::aquifiersPressed()
+{
+    if (DwarfFortress::instance().rawsFind("[AQUIFER]") == "YES")
+        DwarfFortress::instance().rawsReplace("[AQUIFER]", "!AQUIFER!");
+    else
+        DwarfFortress::instance().rawsReplace("!AQUIFER!", "[AQUIFER]");
+    m_aquifersButton->setText(tr("Aquifers: ") + DwarfFortress::instance().rawsFind("[AQUIFER]"));
+}
+
+void OptionsTab::exoticPressed()
+{
+    if (DwarfFortress::instance().rawsFind("[PET_EXOTIC]") == "YES" || DwarfFortress::instance().rawsFind("[MOUNT_EXOTIC]") == "YES") {
+        DwarfFortress::instance().rawsReplace("[PET_EXOTIC]", "![PET]!");
+        DwarfFortress::instance().rawsReplace("[MOUNT_EXOTIC]", "![MOUNT]!");
+    } else {
+        DwarfFortress::instance().rawsReplace("![PET]!", "[PET_EXOTIC]");
+        DwarfFortress::instance().rawsReplace("![MOUNT]!", "[MOUNT_EXOTIC]");
+    }
+    if (DwarfFortress::instance().rawsFind("[PET_EXOTIC]") == "YES" || DwarfFortress::instance().rawsFind("[MOUNT_EXOTIC]") == "YES") {
+        m_exoticButton->setText(tr("Exotic Animals: ") + "YES");
+    } else {
+        m_exoticButton->setText(tr("Exotic Animals: ") + "NO");
+    }
 }

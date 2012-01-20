@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class QPushButton;
+
 namespace Ui {
 class OptionsTab;
 }
@@ -14,9 +16,18 @@ class OptionsTab : public QWidget
 public:
     explicit OptionsTab(QWidget *parent = nullptr);
     ~OptionsTab();
-    
+
+private slots:
+    void dfDataChanged();
+    void exoticPressed();
+    void aquifiersPressed();
+
 private:
     Ui::OptionsTab *ui;
+
+    QPushButton *m_aquifersButton;
+    QPushButton *m_exoticButton;
+
 };
 
 #endif // OPTIONSTAB_H
