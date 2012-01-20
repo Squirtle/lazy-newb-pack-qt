@@ -4,6 +4,7 @@
 #include "ConfigButton.h"
 #include "NumericOptionWidget.h"
 #include "DwarfFortress.h"
+#include "KeybindsWidget.h"
 
 #include <QDebug>
 
@@ -48,6 +49,10 @@ OptionsTab::OptionsTab(QWidget *parent) :
     box->addWidget(m_aquifersButton);
     box->addWidget(m_exoticButton);
     ui->modsGroup->setLayout(box);
+
+    //Keybinds Group
+    ui->keybindingsGroup->setLayout(new QHBoxLayout(ui->keybindingsGroup));
+    ui->keybindingsGroup->layout()->addWidget(new KeybindsWidget(ui->keybindingsGroup));
 
     connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dfDataChanged() ));
 }

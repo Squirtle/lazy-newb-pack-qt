@@ -13,7 +13,8 @@ HEADERS += inc/functions.hpp inc/lnplauncher.hpp inc/optionsframe.hpp inc/advanc
     inc/ConfigButton.h \
     inc/OptionsTab.h \
     inc/NumericOptionWidget.h \
-    inc/InitEditorDialog.h
+    inc/InitEditorDialog.h \
+    inc/KeybindsWidget.h
 SOURCES += src/functions.cpp src/lnplauncher.cpp src/main.cpp src/optionsframe.cpp src/advancedframe.cpp src/graphicsframe.cpp \ 
     src/DwarfFortress.cpp \
     src/DwarfFortressProcess.cpp \
@@ -21,7 +22,8 @@ SOURCES += src/functions.cpp src/lnplauncher.cpp src/main.cpp src/optionsframe.c
     src/ConfigButton.cpp \
     src/OptionsTab.cpp \
     src/NumericOptionWidget.cpp \
-    src/InitEditorDialog.cpp
+    src/InitEditorDialog.cpp \
+    src/KeybindsWidget.cpp
 
 FORMS += \
     ui/MainWindow.ui \
