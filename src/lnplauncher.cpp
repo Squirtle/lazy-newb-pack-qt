@@ -13,7 +13,7 @@
 
 LNPLauncher::LNPLauncher()
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     df_location = new QLabel(tr("Using DF Installation at: %1").arg(DwarfFortress::instance().getDFFolder()));
     df_location->setAlignment(Qt::AlignHCenter);
     QPushButton *df_changeInstall = new QPushButton(tr("Choose DF Installation"));
@@ -235,7 +235,7 @@ void LNPLauncher::create_actions()
 */
 
 
-void LNPLauncher::dfFolderChanged()
+void LNPLauncher::dataChanged()
 {
     df_location->setText(tr("Using DF Installation at: %1").arg(DwarfFortress::instance().getDFFolder()));
     delete dialog;

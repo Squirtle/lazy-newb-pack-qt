@@ -8,7 +8,7 @@
 OptionFrame::OptionFrame()
     :  QGroupBox(tr("Options"))
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     economy = new QPushButton(tr("Economy: ") + DwarfFortress::instance().getOption(tr("ECONOMY")));
     temperature = new QPushButton(tr("Temperature: ") + DwarfFortress::instance().getOption(tr("TEMPERATURE")));
     weather = new QPushButton(tr("Weather: ") + DwarfFortress::instance().getOption(tr("WEATHER")));
@@ -43,7 +43,7 @@ OptionFrame::OptionFrame()
 ModFrame::ModFrame()
     :  QGroupBox(tr("Mods"))
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     aquifers = new QPushButton(tr("Aquifers: ") + DwarfFortress::instance().rawsFind(tr("[AQUIFER]")));
     if (DwarfFortress::instance().rawsFind(tr("[PET_EXOTIC]")) == tr("YES"))
         exotic = new QPushButton(tr("Exotic Animals: ") + DwarfFortress::instance().rawsFind(tr("[PET_EXOTIC]")));
@@ -105,12 +105,12 @@ MainOptionsFrame::MainOptionsFrame()
     
 }
 
-void OptionFrame::dfFolderChanged()
+void OptionFrame::dataChanged()
 {
     populateButtons();
 }
 
-void ModFrame::dfFolderChanged()
+void ModFrame::dataChanged()
 {
     aquifers->setText("Aquifers: " + DwarfFortress::instance().rawsFind("[AQUIFER]"));
     if (DwarfFortress::instance().rawsFind("[PET_EXOTIC]") == "YES")

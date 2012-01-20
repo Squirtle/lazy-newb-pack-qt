@@ -89,11 +89,17 @@ public:
     QString rawsFind(const QString &find) const;
     void rawsReplace(const QString &old, const QString &replaced);
 
+    /**
+      * Call this when data files (init, dinit, etc) change, so the various GUI components
+      * can refresh their value.
+      */
+    void notifyChange();
+
 signals:
     /**
       * Emitted when the DF folder changes
       */
-    void dfFolderChanged();
+    void dataChanged();
 
 
 private:

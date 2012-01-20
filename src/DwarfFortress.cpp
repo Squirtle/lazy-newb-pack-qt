@@ -51,7 +51,7 @@ void DwarfFortress::setDFFolder(const QString & path)
     if( path != m_dfFolder ) {
         m_dfFolder = path;
         m_hasDF = !m_dfFolder.isEmpty();
-        emit dfFolderChanged();
+        emit dataChanged();
     }
 }
 
@@ -200,4 +200,9 @@ void DwarfFortress::rawsReplace(const QString &old, const QString &replaced)
       delete buffer;
     }
   return;
+}
+
+void DwarfFortress::notifyChange()
+{
+    emit dataChanged();
 }

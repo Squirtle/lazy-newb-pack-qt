@@ -49,7 +49,7 @@ private slots:
     void about(); // Opens an about dialog.
 */
 
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     void create_actions();

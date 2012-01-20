@@ -8,7 +8,7 @@
 SoundFrame::SoundFrame()
     : QGroupBox(tr("Sound"))
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     sound = new QPushButton(tr("Sound: ") + DwarfFortress::instance().getOption(tr("SOUND")));
     volume = new QLineEdit(DwarfFortress::instance().getOption(tr("VOLUME")));
     maxvolume = new QLabel(tr("/255"));
@@ -26,7 +26,7 @@ SoundFrame::SoundFrame()
     setLayout(box);
 }
 
-void SoundFrame::dfFolderChanged()
+void SoundFrame::dataChanged()
 {
     sound->setText("Sound: " + DwarfFortress::instance().getOption("SOUND"));
     volume->setText(DwarfFortress::instance().getOption("VOLUME"));
@@ -35,7 +35,7 @@ void SoundFrame::dfFolderChanged()
 FPSFrame::FPSFrame()
     : QGroupBox(tr("FPS"))
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     counter = new QPushButton(tr("FPS Counter: ") + DwarfFortress::instance().getOption(tr("FPS")));
     cFPScap = new QLineEdit(DwarfFortress::instance().getOption(tr("FPS_CAP")));
     gFPScap = new QLineEdit(DwarfFortress::instance().getOption(tr("G_FPS_CAP")));
@@ -61,7 +61,7 @@ FPSFrame::FPSFrame()
     setLayout(box);
 }
 
-void FPSFrame::dfFolderChanged()
+void FPSFrame::dataChanged()
 {
     counter->setText("FPS Counter: " + DwarfFortress::instance().getOption("FPS"));
     cFPScap->setText(DwarfFortress::instance().getOption("FPS_CAP"));
@@ -71,7 +71,7 @@ void FPSFrame::dfFolderChanged()
 StartupFrame::StartupFrame()
     : QGroupBox(tr("Startup"))
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     intro = new QPushButton(tr("Intro Movie: ") + DwarfFortress::instance().getOption(tr("INTRO")));
     windowed = new QPushButton(tr("Windowed: ") + DwarfFortress::instance().getOption(tr("WINDOWED")));
     box = new QVBoxLayout();
@@ -85,7 +85,7 @@ StartupFrame::StartupFrame()
     setLayout(box);
 }
 
-void StartupFrame::dfFolderChanged()
+void StartupFrame::dataChanged()
 {
     intro->setText("Intro Movie: " + DwarfFortress::instance().getOption("INTRO"));
     windowed->setText("Windowed: " + DwarfFortress::instance().getOption("WINDOWED"));
@@ -94,7 +94,7 @@ void StartupFrame::dfFolderChanged()
 SaveFrame::SaveFrame()
     : QGroupBox(tr("Save-related"))
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     autosave = new QPushButton(tr("Autosave: ") + DwarfFortress::instance().getOption(tr("AUTOSAVE")));
     autopause = new QPushButton(tr("Autosave Pause: ") + DwarfFortress::instance().getOption(tr("AUTOSAVE_PAUSE")));
     initsave = new QPushButton(tr("Initial Save: ") + DwarfFortress::instance().getOption(tr("INITIAL_SAVE")));
@@ -120,7 +120,7 @@ SaveFrame::SaveFrame()
     setLayout(grid);
 }
 
-void SaveFrame::dfFolderChanged()
+void SaveFrame::dataChanged()
 {
     autosave->setText("Autosave: " + DwarfFortress::instance().getOption("AUTOSAVE"));
     autopause->setText("Autosave Pause: " + DwarfFortress::instance().getOption("AUTOSAVE_PAUSE"));
@@ -132,7 +132,7 @@ void SaveFrame::dfFolderChanged()
 
 AdvancedFrame::AdvancedFrame()
 {
-    connect( &DwarfFortress::instance(), SIGNAL( dfFolderChanged() ), this, SLOT( dfFolderChanged() ));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
     procpriority = new QPushButton(tr("Processor Priority: ") + DwarfFortress::instance().getOption(tr("PRIORITY")));
     soundframe = new SoundFrame();
     fpsframe = new FPSFrame();
@@ -151,7 +151,7 @@ AdvancedFrame::AdvancedFrame()
     setLayout(grid);
 }
 
-void AdvancedFrame::dfFolderChanged()
+void AdvancedFrame::dataChanged()
 {
     procpriority->setText("Processor Priority: " + DwarfFortress::instance().getOption("PRIORITY"));
 }

@@ -78,6 +78,7 @@ void ChangeFrame::install_pressed()
     QDir gfx_src("./LNP/Graphics/" +  graphics_pack + "/data");
     QDir df(DwarfFortress::instance().getDFFolder());
     cpDir(gfx_src, df);
+    DwarfFortress::instance().notifyChange();
     QMessageBox success;
     success.setText(model->data(view->currentIndex(), Qt::DisplayRole).toString() + tr(" succesfully installed."));
     success.exec();

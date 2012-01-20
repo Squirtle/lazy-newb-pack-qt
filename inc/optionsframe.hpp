@@ -22,7 +22,7 @@ private slots:
     void liquid_pressed();
     void popcap_pressed();
     void childcap_pressed();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     void populateButtons();
@@ -42,7 +42,7 @@ public:
 private slots:
     void aquifers_pressed();
     void exotic_pressed();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     QPushButton *aquifers, *exotic;

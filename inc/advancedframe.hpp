@@ -16,7 +16,7 @@ private slots:
     void sound_pressed();
     void volume_modified();
     void volume_finished();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     QPushButton *sound;
@@ -39,7 +39,7 @@ private slots:
     void gFPScap_modified();
     void cFPScap_finished();
     void gFPScap_finished();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     QPushButton *counter;
@@ -59,7 +59,7 @@ public:
 private slots:
     void intro_pressed();
     void windowed_pressed();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     QPushButton *intro, *windowed;
@@ -81,7 +81,7 @@ private slots:
     void pauseonload_pressed();
     void compress_pressed();
     void autobackup_pressed();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     QPushButton *autosave, *autopause, *initsave, *pauseonload, *compress, *autobackup;
@@ -98,7 +98,7 @@ public:
 
 private slots:
     void procpriority_pressed();
-    void dfFolderChanged();
+    void dataChanged();
 
 private:
     QPushButton *procpriority;
