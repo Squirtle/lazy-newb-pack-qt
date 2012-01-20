@@ -4,10 +4,13 @@
 #include "DwarfFortress.h"
 #include "DwarfFortressProcess.h"
 
+#include "InitEditorDialog.h"
+
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QProcess>
 #include <QProcessEnvironment>
+#include <QPointer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->changeInstallButton, SIGNAL(clicked()), this, SLOT(changeDFPressed()));
     connect(ui->playButton, SIGNAL(clicked()), this, SLOT(playPressed()));
+    connect(ui->initEditButton, SIGNAL(clicked()), this, SLOT(editInitPressed()));
 
 }
 
@@ -53,6 +57,13 @@ void MainWindow::playPressed()
 #ifdef Q_WS_WIN
     QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/Dwarf Fortress.exe\"");
 #endif
+}
+
+void MainWindow::editInitPressed()
+{
+    QPointer<InitEditorDialog> dlg = new InitEditorDialog( this ); //the dlg-on-heap-variant
+    dlg->exec();
+    delete dlg;
 }
 
 void MainWindow::updateDFLocation()
