@@ -99,11 +99,14 @@ void NumericOptionWidget::dfDataChanged()
 {
     const QString value = DwarfFortress::instance().getOption(m_option);
     QStringList values = value.split(":");
+    //qDebug() << m_option << values;
     QList<int> int_values;
     foreach( const QString& v, values) {
         bool ok = false;
         int_values << v.toInt(&ok);
         Q_ASSERT(ok);
     }
+    m_numberEdit->blockSignals(true);
     m_numberEdit->setValues(int_values);
+    m_numberEdit->blockSignals(false);
 }
