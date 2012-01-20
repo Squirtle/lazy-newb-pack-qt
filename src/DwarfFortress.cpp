@@ -151,6 +151,7 @@ void DwarfFortress::setOption(const QString &option, const QString &newValue)
         init.write(buffer->toAscii());
         init.close();
     }
+    notifyChange();
     delete buffer;
 }
 
@@ -179,16 +180,14 @@ void DwarfFortress::rawsReplace(const QString &old, const QString &replaced)
 {
   QVector<QString> rawList;
   QDirIterator it(getRawObjectsPath(), QDir::Files);
-  while (it.hasNext())
-    {
+  while (it.hasNext()) {
         rawList.push_back(it.next());
     }
 
   QFile rawFile;
   QString* buffer;
 
-  foreach (QString i, rawList)
-    {
+  foreach (QString i, rawList) {
       rawFile.setFileName(i);
       rawFile.open(QIODevice::ReadOnly | QIODevice::Text);
       buffer = new QString(rawFile.readAll());
@@ -199,6 +198,7 @@ void DwarfFortress::rawsReplace(const QString &old, const QString &replaced)
       rawFile.close();
       delete buffer;
     }
+  notifyChange();
   return;
 }
 
