@@ -7,7 +7,7 @@ class DwarfFortressProcess : public QProcess
 {
     Q_OBJECT
 public:
-    explicit DwarfFortressProcess(QObject *parent = 0);
+    explicit DwarfFortressProcess(QObject *parent = nullptr);
     
 protected:
     void setupChildProcess();

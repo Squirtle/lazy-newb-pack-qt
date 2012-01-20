@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QApplication>
 
-DwarfFortress::DwarfFortress() : QObject( 0 )
+DwarfFortress::DwarfFortress() : QObject( nullptr )
 {
     QString dfFolder;
     // Find location of DF installation

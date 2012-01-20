@@ -106,8 +106,8 @@ private:
     // this is a singleton, so the ctor is private
     DwarfFortress();
 
-    DwarfFortress(DwarfFortress const&);  // Don't Implement
-    void operator=(DwarfFortress const&); // Don't implement
+    DwarfFortress(DwarfFortress const&) = delete;  // Don't Implement
+    void operator=(DwarfFortress const&) = delete; // Don't implement
 
     /**
      * Looks for a DF insallation at a given location
