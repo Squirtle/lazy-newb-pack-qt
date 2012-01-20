@@ -19,6 +19,7 @@ private slots:
     void changeDFPressed();
     void playPressed();
     void editInitPressed();
+    void defaultsPressed();
     
 private:
     void updateDFLocation();
