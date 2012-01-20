@@ -31,10 +31,8 @@ private:
 };
 
 void getKeybindings(QStringList& list); // Writes the list of keybinding files in ./LNP/Keybinds/ to list.
-bool copyFile(QFile& file1, QFile& file2); // Copies file1 to file2.
 QStringList getContents(QString dirname, bool folders); // Returns the contents of the directory dirname, either files or folders.
-void cpDir1(QDir from, QStringList &list); // These are seperated because cpDir calls itself recursively in a way that wouldn't work if cpDir1 were combined with cpDir2.
-void cpDir2(QDir from, QDir to, QStringList list);
-void cpDir(QDir from, QDir to); // Uses cpDir1 and cpDir2 to copy everything in from to to.
+void cpDir(QDir from, QDir to); // Copies from into to
+void rmrfDir(QDir d); // Recursively deletes a directory
 
 #endif

@@ -68,7 +68,7 @@ void ChangeFrame::install_pressed()
     sure = dialog.exec();
     if (sure)
     {
-        QDir dir1(tr("./LNP/Keybinds/") + model->data(view->currentIndex(), Qt::DisplayRole).toString());
+        QDir dir1("./LNP/Graphics/" + model->data(view->currentIndex(), Qt::DisplayRole).toString() + "/data");
         QDir dir2(DwarfFortress::instance().getDFFolder());
         cpDir(dir1, dir2);
         QMessageBox success;
@@ -79,31 +79,33 @@ void ChangeFrame::install_pressed()
 
 void ChangeFrame::upgrade_pressed()
 {
-    QDir dir1(tr("./LNP/Graphics/") + model->data(view->currentIndex(), Qt::DisplayRole).toString() + tr("/raws/"));
-    QDirIterator dit(DwarfFortress::instance().getSavePath());
-    if (!dit.hasNext())
-    {
+    QDir dir1("./LNP/Graphics/" + model->data(view->currentIndex(), Qt::DisplayRole).toString() + "/raw/");
+    QDirIterator saves_iterator(DwarfFortress::instance().getSavePath(), QDir::Dirs | QDir::NoDotAndDotDot);
+    if( !saves_iterator.hasNext() ) {
         QMessageBox error;
         error.setText(tr("No saves exist!"));
         error.exec();
+        return;
     }
-    else
-    {
-        bool sure;
-        QMessageBox dialog;
-        dialog.setText(tr("Are you sure you want to upgrade your saves to use this graphics pack?  You will lose all mods you have made to their raws"));
-        dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
-        dialog.setDefaultButton(QMessageBox::Cancel);
-        sure = dialog.exec();
-        if (sure)
-        {
-            while (dit.hasNext())
-                cpDir(dir1, dit.path() + "/raws/");
-            QMessageBox success;
-            success.setText(tr("Successfully upgraded saves!"));
-            success.exec();
-        }
+    bool sure;
+    QMessageBox dialog;
+    dialog.setText(tr("Are you sure you want to upgrade your saves to use this graphics pack?  You will lose all mods you have made to their raws"));
+    dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    dialog.setDefaultButton(QMessageBox::Cancel);
+    sure = dialog.exec();
+    if(!sure)
+        return;
+    while(saves_iterator.hasNext()) {
+        const QString path = saves_iterator.next();
+        QDir current_save_raw( path + QDir::separator() + "raw" ); // data/save/current_save/raw
+        if(current_save_raw.exists())
+            rmrfDir(current_save_raw); // delete the raw
+        qDebug() << "updating" << dir1.path() << " to " << path + "/raw";
+        cpDir(dir1, path);
     }
+    QMessageBox success;
+    success.setText(tr("Successfully upgraded saves!"));
+    success.exec();
 }
 
 void ChangeFrame::truetype_pressed()
