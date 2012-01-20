@@ -80,6 +80,11 @@ QString DwarfFortress::getRawObjectsPath() const
     return m_dfFolder + "/raw/objects/";
 }
 
+QString DwarfFortress::getArtDir() const
+{
+    return m_dfFolder + "/data/art";
+}
+
 QString DwarfFortress::getOption(const QString &option) const
 {
   QFile init(getInitPath());

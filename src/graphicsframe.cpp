@@ -66,15 +66,21 @@ void ChangeFrame::install_pressed()
     dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     dialog.setDefaultButton(QMessageBox::Cancel);
     sure = dialog.exec();
-    if (sure)
-    {
-        QDir dir1("./LNP/Graphics/" + model->data(view->currentIndex(), Qt::DisplayRole).toString() + "/data");
-        QDir dir2(DwarfFortress::instance().getDFFolder());
-        cpDir(dir1, dir2);
-        QMessageBox success;
-        success.setText(model->data(view->currentIndex(), Qt::DisplayRole).toString() + tr(" succesfully installed."));
-        success.exec();
-    }
+
+    if( !sure )
+        return;
+
+    // First, delete existing art dir
+    rmrfDir(QDir(DwarfFortress::instance().getArtDir()));
+
+    // Second, copy over gfx pack files
+    const QString graphics_pack( model->data(view->currentIndex(), Qt::DisplayRole).toString() );
+    QDir gfx_src("./LNP/Graphics/" +  graphics_pack + "/data");
+    QDir df(DwarfFortress::instance().getDFFolder());
+    cpDir(gfx_src, df);
+    QMessageBox success;
+    success.setText(model->data(view->currentIndex(), Qt::DisplayRole).toString() + tr(" succesfully installed."));
+    success.exec();
 }
 
 void ChangeFrame::upgrade_pressed()
@@ -100,7 +106,6 @@ void ChangeFrame::upgrade_pressed()
         QDir current_save_raw( path + QDir::separator() + "raw" ); // data/save/current_save/raw
         if(current_save_raw.exists())
             rmrfDir(current_save_raw); // delete the raw
-        qDebug() << "updating" << dir1.path() << " to " << path + "/raw";
         cpDir(dir1, path);
     }
     QMessageBox success;

@@ -71,6 +71,11 @@ public:
     QString getRawObjectsPath() const;
 
     /**
+      * Returns the full path to the data/art dir
+      */
+    QString getArtDir() const;
+
+    /**
      * Looks through init.txt and d_init.txt for [option:value] and returns value.
      */
     QString getOption(const QString &option) const;
