@@ -22,126 +22,14 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>18</pointsize>
-        <stylestrategy>PreferDefault</stylestrategy>
-       </font>
-      </property>
-      <property name="text">
-       <string>Lazy Newb Pack</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Dwarf Fortress Installation</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="dfInstallLabel">
-           <property name="text">
-            <string>Using DF At:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="dfLocationLabel">
-           <property name="text">
-            <string>/opt/df_linux</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="changeInstallButton">
-         <property name="text">
-          <string>Change DF Installation</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="baseSize">
+     <widget class="FancyTabWidget" name="tabs" native="true">
+      <property name="minimumSize">
        <size>
-        <width>600</width>
-        <height>500</height>
+        <width>0</width>
+        <height>0</height>
        </size>
       </property>
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="options">
-       <attribute name="title">
-        <string>Options</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="OptionsTab" name="widget" native="true">
-          <zorder></zorder>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="graphics">
-       <attribute name="title">
-        <string>Graphics</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="advanced">
-       <attribute name="title">
-        <string>Advanced</string>
-       </attribute>
-      </widget>
      </widget>
-    </item>
-    <item>
-     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0">
-      <item row="0" column="1">
-       <widget class="QPushButton" name="initEditButton">
-        <property name="text">
-         <string>Init Editor</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="resetButton">
-        <property name="text">
-         <string>Reset to Defaults</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QPushButton" name="playButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="sizeIncrement">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Play Dwarf Fortress!</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </item>
    </layout>
   </widget>
@@ -159,9 +47,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>OptionsTab</class>
+   <class>FancyTabWidget</class>
    <extends>QWidget</extends>
-   <header>inc/OptionsTab.h</header>
+   <header location="global">fancytabwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

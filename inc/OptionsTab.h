@@ -21,6 +21,9 @@ private slots:
     void dfDataChanged();
     void exoticPressed();
     void aquifiersPressed();
+    void editInitPressed();
+    void defaultsPressed();
+
 
 private:
     Ui::OptionsTab *ui;

@@ -9,6 +9,9 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
 
+  QString searchPath = QLatin1String(":/");
+  QIcon::setThemeSearchPaths(QStringList() << searchPath);
+  QIcon::setThemeName( "fallback" );
   MainWindow window;
   window.show();
   /*LNPLauncher launcher;

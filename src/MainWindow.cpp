@@ -2,15 +2,15 @@
 #include "ui_MainWindow.h"
 
 #include "DwarfFortress.h"
-#include "DwarfFortressProcess.h"
-
+#include "IconLoader.h"
+#include "OptionsTab.h"
+#include "SetupTab.h"
 #include "InitEditorDialog.h"
 
-#include <QFileDialog>
-#include <QDesktopServices>
-#include <QProcess>
-#include <QProcessEnvironment>
-#include <QPointer>
+#include <manhattanstyle.h>
+#include <fancytabwidget.h>
+
+
 #include <QMessageBox>
 #include <QDirIterator>
 #include <QTimer>
@@ -27,13 +27,24 @@ MainWindow::MainWindow(QWidget *parent) :
         QMessageBox::critical(this, tr("Cannot find LNP Data"), tr("The Lazy Newb Pack data cannot be located. The program will now quit."));
         QTimer::singleShot(0, qApp, SLOT(quit()));
     } else {
-
-        updateDFLocation();
-
-        connect(ui->changeInstallButton, SIGNAL(clicked()), this, SLOT(changeDFPressed()));
-        connect(ui->playButton, SIGNAL(clicked()), this, SLOT(playPressed()));
-        connect(ui->initEditButton, SIGNAL(clicked()), this, SLOT(editInitPressed()));
-        connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(defaultsPressed()));
+        QString baseName = QApplication::style()->objectName();
+#ifdef Q_WS_X11
+        if (baseName == QLatin1String("windows")) {
+           // Sometimes we get the standard windows 95 style as a fallback
+           // e.g. if we are running on a KDE4 desktop
+           QByteArray desktopEnvironment = qgetenv("DESKTOP_SESSION");
+           if (desktopEnvironment == "kde")
+               baseName = QLatin1String("plastique");
+           else
+               baseName = QLatin1String("cleanlooks");
+       }
+#endif
+        qApp->setStyle(new ManhattanStyle(baseName));
+        ui->tabs->AddTab(new SetupTab(this), IconLoader::load("lnp"), tr("Setup"));
+        ui->tabs->AddTab(new OptionsTab(this), IconLoader::load("configure"), tr("Options"));
+        ui->tabs->AddTab(new InitEditorDialog(this), IconLoader::load("code-context"), tr("Init Editor"));
+        FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
+        ui->tabs->SetMode(FancyTabWidget::Mode(default_mode));
     }
 
 }
@@ -43,77 +54,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::changeDFPressed()
-{
-    const QString dir = QFileDialog::getExistingDirectory(this, tr("Choose DF Installation Directory"), QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    DwarfFortress::instance().setDFFolder(dir);
-    updateDFLocation();
-}
-
-void MainWindow::playPressed()
-{
-#ifdef Q_WS_X11
-    QProcessEnvironment env(  QProcessEnvironment::systemEnvironment () );
-
-    // Work around for bug in Debian/Ubuntu SDL patch.
-    env.insert( "SDL_DISABLE_LOCK_KEYS", "1");
-
-    // Center the screen.  Messes up resizing. TODO: who/what needs this?
-    //env.insert( "SDL_VIDEO_CENTERED", "1");
-
-    DwarfFortressProcess *df = new DwarfFortressProcess(this);
-    df->setWorkingDirectory(DwarfFortress::instance().getDFFolder());
-    df->setProcessEnvironment(env);
-    df->start("./libs/Dwarf_Fortress");
-#endif
-#ifdef Q_WS_WIN
-    QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/Dwarf Fortress.exe\"");
-#endif
-}
-
-void MainWindow::editInitPressed()
-{
-    QPointer<InitEditorDialog> dlg = new InitEditorDialog( this ); //the dlg-on-heap-variant
-    dlg->exec();
-    delete dlg;
-}
-
-void MainWindow::defaultsPressed()
-{
-    QMessageBox msg(this);
-    msg.setText(tr("Are you sure that you want to reset all init settings to their defaults?"));
-    msg.setInformativeText(tr("Note that this won't effect settings not controlled by the init and d_init files, such as the aquifers setting."));
-    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setDefaultButton(QMessageBox::No);
-    int sure = msg.exec();
-    if (sure == QMessageBox::Yes)
-    {
-        QFile oldinit(DwarfFortress::instance().getInitPath()), newinit("./LNP/Defaults/init.txt");
-        QFile olddinit(DwarfFortress::instance().getDInitPath()), newdinit(tr("./LNP/Defaults/d_init.txt"));
-
-        Q_ASSERT(newinit.exists());
-        Q_ASSERT(newdinit.exists());
-
-        oldinit.remove();
-        olddinit.remove();
-        newinit.copy(DwarfFortress::instance().getInitPath());
-        newdinit.copy(DwarfFortress::instance().getDInitPath());
-
-        QMessageBox::information(this, tr("Defaults Restored"), tr("Init settings restored to defaults!"));
-        DwarfFortress::instance().notifyChange();
-    }
-}
-
-void MainWindow::updateDFLocation()
-{
-    if( DwarfFortress::instance().hasDF() ) {
-        ui->dfInstallLabel->setText(tr("Using DF at:"));
-        ui->dfLocationLabel->setText(DwarfFortress::instance().getDFFolder());
-    } else {
-        ui->dfInstallLabel->setText(tr("Could not find a Dwarf Fortress Installation!"));
-        ui->dfLocationLabel->setText(QString());
-    }
-}
 
 bool MainWindow::verifyLNPData()
 {
