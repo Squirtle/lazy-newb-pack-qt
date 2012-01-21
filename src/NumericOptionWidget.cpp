@@ -98,6 +98,7 @@ void NumericOptionWidget::valueChanged()
 void NumericOptionWidget::dfDataChanged()
 {
     const QString value = DwarfFortress::instance().getOption(m_option);
+    if( value.isEmpty() ) return;
     QStringList values = value.split(":");
     //qDebug() << m_option << values;
     QList<int> int_values;
