@@ -16,23 +16,36 @@ DwarfFortress::DwarfFortress() : QObject( nullptr )
    }
 
    //TODO: search in more locations, where do other distros put their DFs?
-   qDebug() << "DF PATH" << dfFolder;
+   //qDebug() << "DF PATH" << dfFolder;
    m_dfFolder = dfFolder;
    m_hasDF = !m_dfFolder.isEmpty();
 }
 
 QString DwarfFortress::findInstallation(const QString &path, const QString &folder_name)
 {
-    //TODO: verify the folder found is actually a DF install
     QString DFFolderName;
     QDirIterator it(path, QDir::NoDotAndDotDot | QDir::Dirs);
     while (it.hasNext()) {
         DFFolderName = it.next();
-        if (DFFolderName.contains(folder_name)) {
+        if (DFFolderName.contains(folder_name) && verifyDFPath(DFFolderName)) {
             return DFFolderName;
         }
     }
     return QString();
+}
+
+bool DwarfFortress::verifyDFPath(const QString &path)
+{
+    QFileInfo dir_info(path);
+    if(!dir_info.exists()) return false;
+    if(!dir_info.isDir()) return false;
+    if(! (dir_info.isReadable() && dir_info.isWritable())) return false;
+
+    QDir dir(path);
+    QStringList results = dir.entryList(QStringList() << "Dwarf Fortress.exe" << "df");
+    //qDebug() << results;
+    if( results.length() == 0 ) return false;
+    return true;
 }
 
 bool DwarfFortress::hasDF() const
@@ -47,10 +60,9 @@ QString DwarfFortress::getDFFolder() const
 
 void DwarfFortress::setDFFolder(const QString & path)
 {
-    //TODO: verify path
     if( path != m_dfFolder ) {
         m_dfFolder = path;
-        m_hasDF = !m_dfFolder.isEmpty();
+        m_hasDF = verifyDFPath(path);
         emit dataChanged();
     }
 }

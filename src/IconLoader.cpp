@@ -12,7 +12,6 @@ QIcon IconLoader::load(const QString &name)
         QIcon::setThemeName("fallback");
     }
     icon = QIcon::fromTheme(name);
-    qDebug() << icon.isNull();
     if(!icon.isNull()) return icon;
 /*
     // Fallback

@@ -114,6 +114,11 @@ private:
      */
     QString findInstallation(const QString &path, const QString &folder_name = "df_linux");
 
+    /**
+      * Checks to see whether the given path contains a valid DF installation
+      */
+    bool verifyDFPath(const QString &path);
+
 
     QString m_dfFolder;
     bool m_hasDF;
