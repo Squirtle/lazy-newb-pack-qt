@@ -1,0 +1,3 @@
+[submodule "3rdparty/qtilities"]
+	path = 3rdparty/qtilities
+	url = git://github.com/JPNaude/Qtilities.git
