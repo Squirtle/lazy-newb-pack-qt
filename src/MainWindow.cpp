@@ -5,7 +5,7 @@
 #include "IconLoader.h"
 #include "OptionsTab.h"
 #include "SetupTab.h"
-#include "InitEditorDialog.h"
+#include "InitEditorWidget.h"
 
 #include <manhattanstyle.h>
 #include <fancytabwidget.h>
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
         qApp->setStyle(new ManhattanStyle(baseName));
         ui->tabs->AddTab(new SetupTab(this), IconLoader::load("lnp"), tr("Setup"));
         ui->tabs->AddTab(new OptionsTab(this), IconLoader::load("configure"), tr("Options"));
-        ui->tabs->AddTab(new InitEditorDialog(this), IconLoader::load("code-context"), tr("Init Editor"));
+        ui->tabs->AddTab(new InitEditorWidget(this), IconLoader::load("code-context"), tr("Init Editor"));
         FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
         ui->tabs->SetMode(FancyTabWidget::Mode(default_mode));
     }

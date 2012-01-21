@@ -18,7 +18,8 @@ HEADERS += inc/functions.hpp inc/lnplauncher.hpp inc/optionsframe.hpp inc/advanc
     inc/KeybindsWidget.h \
     inc/IconLoader.h \
     inc/SetupTab.h \
-    inc/ConfigSyntaxHighlighter.h
+    inc/ConfigSyntaxHighlighter.h \
+    inc/InitEditorWidget.h
 SOURCES += src/functions.cpp src/lnplauncher.cpp src/main.cpp src/optionsframe.cpp src/advancedframe.cpp src/graphicsframe.cpp \ 
     src/DwarfFortress.cpp \
     src/DwarfFortressProcess.cpp \
@@ -30,12 +31,14 @@ SOURCES += src/functions.cpp src/lnplauncher.cpp src/main.cpp src/optionsframe.c
     src/KeybindsWidget.cpp \
     src/IconLoader.cpp \
     src/SetupTab.cpp \
-    src/ConfigSyntaxHighlighter.cpp
+    src/ConfigSyntaxHighlighter.cpp \
+    src/InitEditorWidget.cpp
 
 FORMS += \
     ui/MainWindow.ui \
     ui/OptionsTab.ui \
-    ui/SetupTab.ui
+    ui/SetupTab.ui \
+    ui/InitEditorWidget.ui
 
 RESOURCES += \
     fallback.qrc
