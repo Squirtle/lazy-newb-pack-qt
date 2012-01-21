@@ -14,10 +14,10 @@ InitEditorDialog::InitEditorDialog(QWidget *parent) :
 {
     save = new QPushButton(tr("Save"));
     load = new QPushButton(tr("Load"));
-    grid = new QGridLayout();
-    init = new QTextEdit();
-    dinit = new QTextEdit();
-    QSplitter *splitter = new QSplitter();
+    grid = new QGridLayout(this);
+    init = new QTextEdit(this);
+    dinit = new QTextEdit(this);
+    QSplitter *splitter = new QSplitter(this);
 
     QFile initfile(DwarfFortress::instance().getInitPath());
     QFile dinitfile(DwarfFortress::instance().getDInitPath());
