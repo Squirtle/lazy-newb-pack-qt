@@ -38,13 +38,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="initEditButton">
-       <property name="text">
-        <string>Init Editor</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="resetButton">
        <property name="text">
         <string>Reset to Defaults</string>

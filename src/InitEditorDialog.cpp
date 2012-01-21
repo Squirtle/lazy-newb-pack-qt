@@ -1,6 +1,7 @@
 #include "inc/InitEditorDialog.h"
 
 #include "DwarfFortress.h"
+#include "ConfigSyntaxHighlighter.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -9,7 +10,7 @@
 #include <QFile>
 
 InitEditorDialog::InitEditorDialog(QWidget *parent) :
-    QDialog(parent)
+    QWidget(parent)
 {
     save = new QPushButton(tr("Save"));
     load = new QPushButton(tr("Load"));
@@ -29,6 +30,9 @@ InitEditorDialog::InitEditorDialog(QWidget *parent) :
     init->setPlainText(*inittext);
     dinit->setPlainText(*dinittext);
 
+    new ConfigSyntaxHighlighter(init->document());
+    new ConfigSyntaxHighlighter(dinit->document());
+
     connect(save, SIGNAL(pressed()), this, SLOT(save_pressed()));
     connect(load, SIGNAL(pressed()), this, SLOT(load_pressed()));
 
@@ -39,7 +43,6 @@ InitEditorDialog::InitEditorDialog(QWidget *parent) :
     grid->addWidget(save, 1, 4, 1, 1);
 
     setLayout(grid);
-    resize(700, 600);
 }
 
 

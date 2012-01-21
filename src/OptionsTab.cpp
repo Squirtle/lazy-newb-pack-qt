@@ -59,7 +59,6 @@ OptionsTab::OptionsTab(QWidget *parent) :
     ui->keybindingsGroup->layout()->addWidget(new KeybindsWidget(ui->keybindingsGroup));
 
     connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dfDataChanged() ));
-    connect(ui->initEditButton, SIGNAL(clicked()), this, SLOT(editInitPressed()));
     connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(defaultsPressed()));
 }
 
@@ -100,13 +99,6 @@ void OptionsTab::exoticPressed()
     } else {
         m_exoticButton->setText(tr("Exotic Animals: ") + "NO");
     }
-}
-
-void OptionsTab::editInitPressed()
-{
-    QPointer<InitEditorDialog> dlg = new InitEditorDialog( this ); //the dlg-on-heap-variant
-    dlg->exec();
-    delete dlg;
 }
 
 void OptionsTab::defaultsPressed()

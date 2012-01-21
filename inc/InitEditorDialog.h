@@ -1,13 +1,13 @@
 #ifndef INITEDITORDIALOG_H
 #define INITEDITORDIALOG_H
 
-#include <QDialog>
+#include <QWidget>
 
 class QPushButton;
 class QTextEdit;
 class QGridLayout;
 
-class InitEditorDialog : public QDialog
+class InitEditorDialog : public QWidget
 {
     Q_OBJECT
 
