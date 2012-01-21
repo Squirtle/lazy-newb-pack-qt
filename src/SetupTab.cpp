@@ -49,6 +49,7 @@ void SetupTab::playPressed()
 void SetupTab::changeDFPressed()
 {
     const QString dir = QFileDialog::getExistingDirectory(this, tr("Choose DF Installation Directory"), QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if( dir.isEmpty() ) return;
     DwarfFortress::instance().setDFFolder(dir);
     updateDFLocation();
 }
