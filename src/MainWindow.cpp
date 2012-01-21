@@ -3,9 +3,11 @@
 
 #include "DwarfFortress.h"
 #include "IconLoader.h"
+
 #include "OptionsTab.h"
 #include "SetupTab.h"
 #include "InitEditorWidget.h"
+#include "GraphicsTab.h"
 
 #include <manhattanstyle.h>
 #include <fancytabwidget.h>
@@ -40,9 +42,11 @@ MainWindow::MainWindow(QWidget *parent) :
        }
 #endif
         qApp->setStyle(new ManhattanStyle(baseName));
+        ui->actionQuit->setShortcut(QKeySequence::Quit);
         ui->tabs->AddTab(new SetupTab(this), IconLoader::load("lnp"), tr("Setup"));
         ui->tabs->AddTab(new OptionsTab(this), IconLoader::load("configure"), tr("Options"));
         ui->tabs->AddTab(new InitEditorWidget(this), IconLoader::load("code-context"), tr("Init Editor"));
+        ui->tabs->AddTab(new GraphicsTab(this), IconLoader::load("applications-graphics"), tr("Graphics"));
         FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
         ui->tabs->SetMode(FancyTabWidget::Mode(default_mode));
     }
@@ -65,4 +69,9 @@ bool MainWindow::verifyLNPData()
         }
     }
     return false;
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+   qApp->quit();
 }
