@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="fallback/16x16/code-context.png">./data/icons/fallback/16x16/code-context.png</file>
+    <file alias="fallback/16x16/configure.png">./data/icons/fallback/16x16/configure.png</file>
+    <file alias="fallback/16x16/lnp.png">./data/icons/fallback/16x16/lnp.png</file>
+    <file alias="fallback/index.theme">./data/icons/fallback/index.theme</file>
+    <file alias="fallback/128x128/configure.png">./data/icons/fallback/128x128/configure.png</file>
+    <file alias="fallback/32x32/code-context.png">./data/icons/fallback/32x32/code-context.png</file>
+    <file alias="fallback/32x32/configure.png">./data/icons/fallback/32x32/configure.png</file>
+    <file alias="fallback/32x32/lnp.png">./data/icons/fallback/32x32/lnp.png</file>
+    <file alias="fallback/64x64/configure.png">./data/icons/fallback/64x64/configure.png</file>
+    <file alias="fallback/64x64/lnp.png">./data/icons/fallback/64x64/lnp.png</file>
+    <file alias="fallback/22x22/code-context.png">./data/icons/fallback/22x22/code-context.png</file>
+    <file alias="fallback/22x22/configure.png">./data/icons/fallback/22x22/configure.png</file>
+    <file alias="fallback/48x48/code-context.png">./data/icons/fallback/48x48/code-context.png</file>
+    <file alias="fallback/48x48/configure.png">./data/icons/fallback/48x48/configure.png</file>
+  </qresource>
+</RCC>
