@@ -61,10 +61,13 @@ QString LocalGameData::name() const
 
 void LocalGameData::parseManifest( const QString& filepath )
 {
-    //qDebug() << "parseManifest(" <<filepath<<")";
     QFileInfo yaml_info(filepath);
+    if( yaml_info.isDir() ) {
+        yaml_info.setFile( filepath + QDir::separator() + "index.yml" );
+    }
+    qDebug() << "parseManifest(" <<filepath<<")";
     if( !yaml_info.exists() ) {
-        //qDebug() << "manifest doesn't exist";
+        qDebug() << "manifest doesn't exist";
         m_name = yaml_info.dir().dirName();
         m_author = "Author Unknown";
         m_version = -1;

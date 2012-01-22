@@ -24,6 +24,9 @@ public:
     virtual QString name() const;
 
 protected:
+    /**
+     * Path to the yaml file or the dir containing it
+     */
     void parseManifest(const QString &filepath);
 
 private:

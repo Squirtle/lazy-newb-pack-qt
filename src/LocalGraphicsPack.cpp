@@ -8,8 +8,7 @@ LocalGraphicsPack::LocalGraphicsPack(const QString &path, QObject *parent)
     : QObject(parent)
     , m_path( path )
 {
-    const QString manifest( m_path + QDir::separator() + "index.yml" );
-    parseManifest( manifest );
+    parseManifest( path );
 }
 
 LocalGraphicsPack::~LocalGraphicsPack()
