@@ -5,6 +5,8 @@ INCLUDEPATH += .
 
 QMAKE_CXXFLAGS += -std=c++0x
 include(../3rdparty/qtcreator/fancywidgets.pri)
+
+QTILITIES = core logging coregui
 include(Qtilities.pri)
 
 LIBS += -lyaml-cpp
