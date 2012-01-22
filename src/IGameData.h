@@ -76,4 +76,5 @@ public:
 
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(IGameData::GameDataTypes)
+Q_DECLARE_INTERFACE(IGameData, "com.lazynewb.IGameData/1.0");
 #endif // IGAMEDATA_H

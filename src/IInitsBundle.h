@@ -23,4 +23,5 @@ public:
     virtual QString dinitPath() = 0;
 };
 
+Q_DECLARE_INTERFACE(IInitsBundle, "com.lazynewb.IInitsBundle/1.0");
 #endif // IINITSBUNDLE_H
