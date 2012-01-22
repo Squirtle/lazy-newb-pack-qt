@@ -12,6 +12,8 @@ LocalGraphicsProvider::LocalGraphicsProvider( const QString &path, QObject *pare
 {
     QStringList pack_paths = findGraphicsPacks();
     foreach(const QString &path, pack_paths) {
+        LocalGraphicsPack* pack = new LocalGraphicsPack(path, this);
+        OBJECT_MANAGER->registerObject(pack);
     }
 }
 
