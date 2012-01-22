@@ -23,9 +23,9 @@ public:
     virtual QObject* objectBase() { return this; }
     virtual const QObject* objectBase() const { return this; }
 
+    static bool verifyInitsPack(const QString &path);
 private:
     QStringList findInitsPacks() const;
-    static bool verifyInitsPack(const QString &path);
 
     QString m_path;
 };

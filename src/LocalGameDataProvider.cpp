@@ -15,7 +15,7 @@ LocalGameDataProvider::LocalGameDataProvider(const QDir & base, QObject *parent)
     if(!dir.exists()) { qWarning() << "LocalGameDataProvider:: path doesn't exist" << base.path(); /* TODO: handle */ }
 
     m_graphicsProvider =  new LocalGraphicsProvider(base.path()+ QDir::separator() + "Graphics", this);
-    m_initsProvider = new LocalInitsProvider(base.path() + QDir::separator() + "Defaults", this);
+    m_initsProvider = new LocalInitsProvider(base.path(), this);
 
 }
 
