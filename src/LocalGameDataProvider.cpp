@@ -16,3 +16,9 @@ LocalGameDataProvider::LocalGameDataProvider(const QString & path, QObject *pare
     m_graphicsProvider =  new LocalGraphicsProvider(path + QDir::separator() + "Graphics", this);
 
 }
+
+IGraphicsProvider* LocalGameDataProvider::graphicsProvider() const
+{
+    return m_graphicsProvider;
+}
+

@@ -4,7 +4,7 @@
 #include "IGraphicsProvider.h"
 #include <QObject>
 
-class LocalGraphicsProvider : public QObject, IGraphicsProvider
+class LocalGraphicsProvider : public QObject, public IGraphicsProvider
 {
     Q_OBJECT
     Q_INTERFACES(IGraphicsProvider)
