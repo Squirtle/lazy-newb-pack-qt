@@ -59,16 +59,21 @@ QString LocalGameData::name() const
     return m_name;
 }
 
-void LocalGameData::parseManifest( const QString& filepath )
+void LocalGameData::parseManifest( const QString& filepath, bool useFilenameAsName )
 {
     QFileInfo yaml_info(filepath);
     if( yaml_info.isDir() ) {
         yaml_info.setFile( filepath + QDir::separator() + "index.yml" );
+        useFilenameAsName = false;
     }
-    qDebug() << "parseManifest(" <<filepath<<")";
+    if(useFilenameAsName && yaml_info.isFile() ) {
+        yaml_info.setFile( yaml_info.dir(), yaml_info.completeBaseName() + ".yml" );
+        qDebug() << "LocalGameData::parseManifest: using same name manifest";
+    }
+    qDebug() << "parseManifest(" <<yaml_info.absoluteFilePath()<<")";
     if( !yaml_info.exists() ) {
         qDebug() << "manifest doesn't exist";
-        m_name = yaml_info.dir().dirName();
+        m_name = useFilenameAsName ? yaml_info.completeBaseName() : yaml_info.dir().dirName();
         m_author = "Author Unknown";
         m_version = -1;
         m_prettyVersion = "Version Unknown";

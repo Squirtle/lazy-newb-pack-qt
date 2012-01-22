@@ -26,8 +26,13 @@ public:
 protected:
     /**
      * Path to the yaml file or the dir containing it
+     * @param filepath a dir or a file to parse the manifest from
+     * @param useFileNameAsName if filepath is a file and this is true, then the the name of the file with the yaml extension will be loaded instead of index.yaml
+     * For example if a keybinds file is named "MySuperKeybinds.txt" and that is passed as filepath,
+     * then if useFileNameAsName is true, this method will attempt to parse MySuperKeybinds.yaml IN THE SAME DIRECTORY as
+     * MySuperKeybinds.txt
      */
-    void parseManifest(const QString &filepath);
+    void parseManifest(const QString &filepath, bool useFileNameAsName = false);
 
 private:
     QString m_name;
