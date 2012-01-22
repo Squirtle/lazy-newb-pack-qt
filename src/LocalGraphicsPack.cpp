@@ -60,6 +60,11 @@ QString LocalGraphicsPack::packId() const
     return m_name;
 }
 
+IGameData::GameDataTypes LocalGraphicsPack::provides() const
+{
+    return IGameData::Graphics | IGameData::Tileset;
+}
+
 QString LocalGraphicsPack::name() const
 {
     return m_name;

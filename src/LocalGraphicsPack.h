@@ -7,7 +7,8 @@
 
 class LocalGraphicsPack : public QObject, public IGraphicsPack
 {
-
+Q_OBJECT
+Q_INTERFACES(IGraphicsPack);
 public:
     LocalGraphicsPack(const QString &path, QObject *parent);
     virtual ~LocalGraphicsPack();
@@ -20,6 +21,7 @@ public:
     virtual QString prettyVersion() const;
     virtual int version() const;
     virtual QString packId() const;
+    virtual GameDataTypes provides() const;
     virtual QString name() const;
 
     QObject* objectBase() { return this; }
