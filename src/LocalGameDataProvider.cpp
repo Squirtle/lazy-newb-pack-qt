@@ -2,6 +2,7 @@
 
 #include "LocalGraphicsProvider.h"
 #include "LocalInitsProvider.h"
+#include "LocalKeybindsProvider.h"
 
 #include <QDir>
 #include <QDebug>
@@ -16,7 +17,7 @@ LocalGameDataProvider::LocalGameDataProvider(const QDir & base, QObject *parent)
 
     m_graphicsProvider =  new LocalGraphicsProvider(base.path()+ QDir::separator() + "Graphics", this);
     m_initsProvider = new LocalInitsProvider(base.path(), this);
-
+    m_keybindsProvider = new LocalKeybindsProvider(base.path() + QDir::separator() + "Keybinds", this);
 }
 
 IGraphicsProvider* LocalGameDataProvider::graphicsProvider() const

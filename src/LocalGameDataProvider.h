@@ -9,6 +9,7 @@
 
 class LocalGraphicsProvider;
 class LocalInitsProvider;
+class LocalKeybindsProvider;
 
 /**
  * Locates and registers DataProviders for data in the old LNP data directory format
@@ -41,6 +42,7 @@ private:
     QDir m_path;
     LocalGraphicsProvider* m_graphicsProvider;
     LocalInitsProvider* m_initsProvider;
+    LocalKeybindsProvider* m_keybindsProvider;
 };
 
 #endif // LOCALGAMEDATAPROVIDER_H
