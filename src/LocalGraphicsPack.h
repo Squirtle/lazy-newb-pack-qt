@@ -22,6 +22,9 @@ public:
     virtual QString packId() const;
     virtual QString name() const;
 
+    QObject* objectBase() { return this; }
+    const QObject* objectBase() const { return this; }
+
 private:
     void parseIndex();
     QString m_path;
