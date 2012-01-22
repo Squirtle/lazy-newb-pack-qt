@@ -39,7 +39,7 @@ IGameData::GameDataTypes InitsBundle::provides() const
     return LocalGameData::provides();
 }
 
-bool InitsBundle::isAvailable()
+bool InitsBundle::dataAvailable() const
 {
     return LocalInitsProvider::verifyInitsPack(m_path);
 }

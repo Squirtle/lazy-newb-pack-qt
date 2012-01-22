@@ -74,6 +74,13 @@ public:
       */
     virtual QPixmap icon() const = 0;
 
+
+    /**
+      * Is the data available to install right now?
+      * Example, if it wasn't available, perhaps we need to download it.
+      */
+    virtual bool dataAvailable() const = 0;
+
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(IGameData::GameDataTypes)
 Q_DECLARE_INTERFACE(IGameData, "com.lazynewb.IGameData/1.0");

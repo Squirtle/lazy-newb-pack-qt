@@ -22,7 +22,6 @@ public:
      */
     virtual QString dinitPath() = 0;
 
-    virtual bool isAvailable() = 0;
 };
 
 Q_DECLARE_INTERFACE(IInitsBundle, "com.lazynewb.IInitsBundle/1.0");

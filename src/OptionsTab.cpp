@@ -117,7 +117,7 @@ void OptionsTab::defaultsPressed()
         QList<QObject*> ifaces = OBJECT_MANAGER->registeredInterfaces("com.lazynewb.IInitsBundle/1.0");
         foreach(QObject* iface, ifaces) {
             IInitsBundle* bundle = qobject_cast<IInitsBundle*>(iface);
-            if( bundle && bundle->isAvailable() && bundle->name() == "Defaults" ) {
+            if( bundle && bundle->dataAvailable() && bundle->name() == "Defaults" ) {
                const bool result = m_dataManager->installInits(bundle);
                if( result ) {
                     QMessageBox::information(this, tr("Defaults Restored"), tr("Init settings restored to defaults!"));
