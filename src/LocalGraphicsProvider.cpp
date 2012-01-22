@@ -1,6 +1,8 @@
 #include "LocalGraphicsProvider.h"
 
+#include "LocalGraphicsPack.h"
 
+#include <QtilitiesCore>
 #include <QDirIterator>
 #include <QFileInfo>
 

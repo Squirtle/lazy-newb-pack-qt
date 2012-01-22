@@ -6,6 +6,7 @@ INCLUDEPATH += .
 QMAKE_CXXFLAGS += -std=c++0x
 include(../3rdparty/qtcreator/fancywidgets.pri)
 
+QT += testlib
 QTILITIES = core logging coregui
 include(Qtilities.pri)
 
