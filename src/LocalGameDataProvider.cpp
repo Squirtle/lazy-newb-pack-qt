@@ -3,6 +3,7 @@
 #include "LocalGraphicsProvider.h"
 
 #include <QDir>
+#include <QDebug>
 
 LocalGameDataProvider::LocalGameDataProvider(const QString & path, QObject *parent)
     : QObject(parent)
@@ -10,7 +11,7 @@ LocalGameDataProvider::LocalGameDataProvider(const QString & path, QObject *pare
     , m_graphicsProvider(nullptr)
 {
     QDir dir(m_path);
-    if(!dir.exists()) { /* TODO */ }
+    if(!dir.exists()) { qWarning() << "LocalGameDataProvider:: path doesn't exist" << path; /* TODO: handle */ }
 
     m_graphicsProvider =  new LocalGraphicsProvider(path + QDir::separator() + "Graphics", this);
 
