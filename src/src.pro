@@ -21,8 +21,14 @@ HEADERS += functions.h lnplauncher.h optionsframe.h advancedframe.h graphicsfram
     ConfigSyntaxHighlighter.h \
     InitEditorWidget.h \
     GraphicsTab.h \
-    IGraphicsPack.h
-SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe.cpp graphicsframe.cpp \ 
+    IGraphicsPack.h \
+    IGameDataProvider.h \
+    IGraphicsProvider.h \
+    LocalGameDataProvider.h \
+    LocalGraphicsProvider.h \
+    LocalGraphicsPack.h
+
+SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe.cpp graphicsframe.cpp \
     DwarfFortress.cpp \
     DwarfFortressProcess.cpp \
     MainWindow.cpp \
@@ -34,7 +40,13 @@ SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe
     SetupTab.cpp \
     ConfigSyntaxHighlighter.cpp \
     InitEditorWidget.cpp \
-    GraphicsTab.cpp
+    GraphicsTab.cpp \
+    IGraphicsPack.cpp \
+    IGameDataProvider.cpp \
+    IGraphicsProvider.cpp \
+    LocalGameDataProvider.cpp \
+    LocalGraphicsProvider.cpp \
+    LocalGraphicsPack.cpp
 
 FORMS += \
     ui/MainWindow.ui \
