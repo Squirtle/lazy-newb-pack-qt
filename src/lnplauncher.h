@@ -1,12 +1,12 @@
-/* lnplauncher.hpp
+/* lnplauncher.h
  * This is the header file which contains the code for main LNP window, as well as the init files editor.
  */
 #ifndef LNPLAUNDER_HPP
 #define LNPLAUNDER_HPP
 #include <QtGui>
-#include "optionsframe.hpp"
-#include "advancedframe.hpp"
-#include "graphicsframe.hpp"
+#include "optionsframe.h"
+#include "advancedframe.h"
+#include "graphicsframe.h"
 
 class InitDialog : public QDialog
 {

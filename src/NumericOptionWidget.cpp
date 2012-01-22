@@ -1,6 +1,6 @@
-#include "inc/NumericOptionWidget.h"
+#include "NumericOptionWidget.h"
 
-#include "inc/DwarfFortress.h"
+#include "DwarfFortress.h"
 
 #include <QSpinBox>
 #include <QLabel>

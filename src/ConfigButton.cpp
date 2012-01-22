@@ -1,6 +1,6 @@
-#include "inc/ConfigButton.h"
+#include "ConfigButton.h"
 
-#include "inc/DwarfFortress.h"
+#include "DwarfFortress.h"
 
 #include <QDebug>
 

@@ -1,4 +1,4 @@
-#include "inc/GraphicsTab.h"
+#include "GraphicsTab.h"
 #include "ui_GraphicsTab.h"
 
 GraphicsTab::GraphicsTab(QWidget *parent) :

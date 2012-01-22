@@ -1,10 +1,10 @@
-/* advancedframe.hpp
+/* advancedframe.h
  * This is the header file which contains the code for the "Graphics" tab.
  */
 #ifndef GRAHPICSFRAME_HPP
 #define GRAHPICSFRAME_HPP
 #include <QtGui>
-#include "functions.hpp"
+#include "functions.h"
 
 class ChangeFrame : public QGroupBox
 {

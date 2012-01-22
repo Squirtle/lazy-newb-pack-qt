@@ -1,7 +1,7 @@
-/* advancedframe.hpp
+/* advancedframe.h
  * This is the source file which contains the code for the "Graphics" tab.
  */
-#include "graphicsframe.hpp"
+#include "graphicsframe.h"
 
 #include "DwarfFortress.h"
 

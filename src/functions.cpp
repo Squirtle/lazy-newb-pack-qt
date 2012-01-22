@@ -1,7 +1,7 @@
-/* functions.hpp
+/* functions.h
  * This source file contains various functions which are used throughout the code, along with the StringListModel class.
  */
-#include "functions.hpp"
+#include "functions.h"
 
 #include <QDebug>
 

@@ -1,4 +1,4 @@
-#include "inc/SetupTab.h"
+#include "SetupTab.h"
 #include "ui_SetupTab.h"
 
 #include "DwarfFortress.h"

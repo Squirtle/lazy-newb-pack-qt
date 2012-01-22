@@ -1,7 +1,7 @@
-#include "inc/KeybindsWidget.h"
+#include "KeybindsWidget.h"
 
 #include "DwarfFortress.h"
-#include "functions.hpp"
+#include "functions.h"
 
 #include <QPushButton>
 #include <QListView>

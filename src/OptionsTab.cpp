@@ -1,11 +1,10 @@
-#include "inc/OptionsTab.h"
+#include "OptionsTab.h"
 #include "ui_OptionsTab.h"
 
 #include "ConfigButton.h"
 #include "NumericOptionWidget.h"
 #include "DwarfFortress.h"
 #include "KeybindsWidget.h"
-#include "InitEditorDialog.h"
 
 #include <QDebug>
 #include <QPointer>

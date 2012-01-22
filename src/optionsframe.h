@@ -1,10 +1,10 @@
-/* advancedframe.hpp
+/* advancedframe.h
  * This is the header file which contains the code for the "Options" tab.
  */
 #ifndef OPTIONSFRAME_HPP
 #define OPTIONSFRAME_HPP
 #include <QtGui>
-#include "functions.hpp"
+#include "functions.h"
 
 class OptionFrame : public QGroupBox
 {

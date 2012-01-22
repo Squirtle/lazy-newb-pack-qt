@@ -1,8 +1,8 @@
-/* advancedframe.hpp
+/* advancedframe.h
  * This is the source file which contains the code for the "Options" tab.
  */
-#include "optionsframe.hpp"
-#include "functions.hpp"
+#include "optionsframe.h"
+#include "functions.h"
 #include "DwarfFortress.h"
 
 OptionFrame::OptionFrame()

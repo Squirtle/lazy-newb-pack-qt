@@ -1,4 +1,4 @@
-#include "inc/ConfigSyntaxHighlighter.h"
+#include "ConfigSyntaxHighlighter.h"
 #include <QDebug>
 
 ConfigSyntaxHighlighter::ConfigSyntaxHighlighter(QTextDocument *parent) :

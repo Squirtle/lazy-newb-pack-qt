@@ -1,4 +1,4 @@
-/* advancedframe.hpp
+/* advancedframe.h
  * This is the header file which contains the code for the "Advanced" tab.
  */
 #ifndef ADVANCEDFRAME_HPP

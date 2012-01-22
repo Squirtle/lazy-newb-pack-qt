@@ -1,4 +1,4 @@
-#include "inc/InitEditorWidget.h"
+#include "InitEditorWidget.h"
 #include "ui_InitEditorWidget.h"
 
 #include "DwarfFortress.h"

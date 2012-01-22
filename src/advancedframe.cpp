@@ -1,8 +1,8 @@
 /* advancedframe.cpp
  * This is the source file which contains the code for the "Advanced" tab.
  */
-#include "advancedframe.hpp"
-#include "functions.hpp"
+#include "advancedframe.h"
+#include "functions.h"
 #include "DwarfFortress.h"
 
 SoundFrame::SoundFrame()

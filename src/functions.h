@@ -1,4 +1,4 @@
-/* functions.hpp
+/* functions.h
  * This header file contains various functions which are used throughout the code, along with the StringListModel class.
  */
 #ifndef FUNCTIONS_HPP

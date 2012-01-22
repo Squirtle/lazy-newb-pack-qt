@@ -1,8 +1,8 @@
-/* lnplauncher.hpp
+/* lnplauncher.h
  * This is the source file which contains the code for main LNP window, as well as the init files editor.
  */
-#include "lnplauncher.hpp"
-#include "functions.hpp"
+#include "lnplauncher.h"
+#include "functions.h"
 #include "DwarfFortress.h"
 #include "DwarfFortressProcess.h"
 
