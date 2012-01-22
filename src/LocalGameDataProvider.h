@@ -11,8 +11,8 @@ class LocalGameDataProvider : public QObject
 public:
     LocalGameDataProvider(const QString & path, QObject *parent = nullptr);
 private:
-    LocalGraphicsProvider* m_graphicsProvider;
     QString m_path;
+    LocalGraphicsProvider* m_graphicsProvider;
 };
 
 #endif // LOCALGAMEDATAPROVIDER_H
