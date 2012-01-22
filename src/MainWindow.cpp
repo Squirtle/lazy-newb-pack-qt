@@ -9,6 +9,8 @@
 #include "InitEditorWidget.h"
 #include "GraphicsTab.h"
 
+#include "LocalGameDataProvider.h"
+
 #include <manhattanstyle.h>
 #include <fancytabwidget.h>
 
@@ -23,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    new LocalGameDataProvider(QDir::current().absolutePath()+QDir::separator() +"LNP", this);
     const bool has_data = verifyLNPData();
     if( !has_data ) {
         hide();
