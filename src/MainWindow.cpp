@@ -10,10 +10,12 @@
 #include "GraphicsTab.h"
 
 #include "LocalGameDataProvider.h"
+#include "DFDataManager.h"
 
 #include <manhattanstyle.h>
 #include <fancytabwidget.h>
 
+#include <QtilitiesCore>
 
 #include <QMessageBox>
 #include <QDirIterator>
@@ -21,7 +23,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_dataManager( new DFDataManager(this) )
 {
     ui->setupUi(this);
 
@@ -47,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
         qApp->setStyle(new ManhattanStyle(baseName));
         ui->actionQuit->setShortcut(QKeySequence::Quit);
         ui->tabs->AddTab(new SetupTab(this), IconLoader::load("lnp"), tr("Setup"));
-        ui->tabs->AddTab(new OptionsTab(this), IconLoader::load("configure"), tr("Options"));
+        ui->tabs->AddTab(new OptionsTab(m_dataManager, this), IconLoader::load("configure"), tr("Options"));
         ui->tabs->AddTab(new InitEditorWidget(this), IconLoader::load("code-context"), tr("Init Editor"));
         ui->tabs->AddTab(new GraphicsTab(this), IconLoader::load("applications-graphics"), tr("Graphics"));
         FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;

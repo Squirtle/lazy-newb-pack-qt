@@ -5,15 +5,19 @@
 #include "NumericOptionWidget.h"
 #include "DwarfFortress.h"
 #include "KeybindsWidget.h"
+#include "IInitsBundle.h"
+
+#include <QtilitiesCore>
 
 #include <QDebug>
 #include <QPointer>
 #include <QMessageBox>
 #include <QFile>
 
-OptionsTab::OptionsTab(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::OptionsTab)
+OptionsTab::OptionsTab( DFManagerPtr manager, QWidget * parent )
+    : QWidget(parent)
+    , ui(new Ui::OptionsTab)
+    , m_dataManager(manager)
 {
     ui->setupUi(this);
 
@@ -108,20 +112,22 @@ void OptionsTab::defaultsPressed()
     msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msg.setDefaultButton(QMessageBox::No);
     int sure = msg.exec();
-    if (sure == QMessageBox::Yes)
-    {
-        QFile oldinit(DwarfFortress::instance().getInitPath()), newinit("./LNP/Defaults/init.txt");
-        QFile olddinit(DwarfFortress::instance().getDInitPath()), newdinit(tr("./LNP/Defaults/d_init.txt"));
+    if (sure == QMessageBox::Yes) {
 
-        Q_ASSERT(newinit.exists());
-        Q_ASSERT(newdinit.exists());
+        QList<QObject*> ifaces = OBJECT_MANAGER->registeredInterfaces("com.lazynewb.IInitsBundle/1.0");
+        foreach(QObject* iface, ifaces) {
+            IInitsBundle* bundle = qobject_cast<IInitsBundle*>(iface);
+            if( bundle && bundle->isAvailable() && bundle->name() == "Defaults" ) {
+               const bool result = m_dataManager->installInits(bundle);
+               if( result ) {
+                    QMessageBox::information(this, tr("Defaults Restored"), tr("Init settings restored to defaults!"));
+               } else {
+                    QMessageBox::warning(this, tr("Error"), tr("Init settings could not be restored."));
+               }
+               return;
+            }
+        }
+        QMessageBox::warning(this, tr("Couldn't Find Data"), tr("The Default settings data could not be located."));
 
-        oldinit.remove();
-        olddinit.remove();
-        newinit.copy(DwarfFortress::instance().getInitPath());
-        newdinit.copy(DwarfFortress::instance().getDInitPath());
-
-        QMessageBox::information(this, tr("Defaults Restored"), tr("Init settings restored to defaults!"));
-        DwarfFortress::instance().notifyChange();
     }
 }

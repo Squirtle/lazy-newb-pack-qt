@@ -5,7 +5,7 @@
 #include <QPixmap>
 #include <QString>
 
-class IInitsBundle : virtual IGameData
+class IInitsBundle : public virtual IGameData
 {
 
 public:
@@ -21,6 +21,8 @@ public:
      * Path to the d_init.txt file
      */
     virtual QString dinitPath() = 0;
+
+    virtual bool isAvailable() = 0;
 };
 
 Q_DECLARE_INTERFACE(IInitsBundle, "com.lazynewb.IInitsBundle/1.0");

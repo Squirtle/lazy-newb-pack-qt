@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "DFDataManager.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -10,7 +12,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
+
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -23,6 +25,7 @@ private:
     void setupOptionsGroup();
     Ui::MainWindow *ui;
 
+    DFManagerPtr m_dataManager;
 };
 
 #endif // MAINWINDOW_H

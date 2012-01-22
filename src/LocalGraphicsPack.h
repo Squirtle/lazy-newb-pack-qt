@@ -11,7 +11,7 @@ class LocalGraphicsPack : public QObject, public IGraphicsPack, public LocalGame
 Q_OBJECT
 Q_INTERFACES(IGraphicsPack);
 public:
-    LocalGraphicsPack(const QString &path, QObject *parent);
+    LocalGraphicsPack(const QString &path, QObject *parent = nullptr);
     virtual ~LocalGraphicsPack();
 
     virtual QString dataPath() const;

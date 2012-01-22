@@ -21,6 +21,7 @@ public:
 
     virtual QString initPath();
     virtual QString dinitPath();
+    virtual bool isAvailable();
 
 private:
     QString m_path;
