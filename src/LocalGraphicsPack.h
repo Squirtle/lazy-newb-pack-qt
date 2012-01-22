@@ -2,10 +2,11 @@
 #define LOCALGRAPHICSPACK_H
 
 #include "IGraphicsPack.h"
+#include "LocalGameData.h"
 
 #include <QString>
 
-class LocalGraphicsPack : public QObject, public IGraphicsPack
+class LocalGraphicsPack : public QObject, public IGraphicsPack, public LocalGameData
 {
 Q_OBJECT
 Q_INTERFACES(IGraphicsPack);
@@ -15,27 +16,13 @@ public:
 
     virtual QString dataPath() const;
     virtual bool dataAvailable() const;
-    virtual QPixmap icon() const;
-    virtual QString description() const;
-    virtual QString author() const;
-    virtual QString prettyVersion() const;
-    virtual int version() const;
-    virtual QString packId() const;
-    virtual GameDataTypes provides() const;
-    virtual QString name() const;
 
     QObject* objectBase() { return this; }
     const QObject* objectBase() const { return this; }
 
 private:
-    void parseIndex();
     QString m_path;
-    QString m_name;
-    QString m_author;
-    QString m_prettyVersion;
-    int m_version;
-    QString m_description;
-    QString m_iconPath;
+
 };
 
 #endif // LOCALGRAPHICSPACK_H

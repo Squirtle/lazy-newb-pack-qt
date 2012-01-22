@@ -35,7 +35,9 @@ HEADERS += functions.h lnplauncher.h optionsframe.h advancedframe.h graphicsfram
     LocalGraphicsPack.h \
     IInitsProvider.h \
     LocalInitsProvider.h \
-    IGameData.h
+    IGameData.h \
+    IInitsBundle.h \
+    LocalGameData.h
 
 SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe.cpp graphicsframe.cpp \
     DwarfFortress.cpp \
@@ -58,7 +60,9 @@ SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe
     LocalGraphicsPack.cpp \
     IInitsProvider.cpp \
     LocalInitsProvider.cpp \
-    IGameData.cpp
+    IGameData.cpp \
+    IInitsBundle.cpp \
+    LocalGameData.cpp
 
 FORMS += \
     ui/MainWindow.ui \

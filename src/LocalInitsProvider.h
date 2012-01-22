@@ -23,9 +23,6 @@ public:
     virtual QObject* objectBase() { return this; }
     virtual const QObject* objectBase() const { return this; }
 
-    virtual QString dinitPath();
-    virtual QString initPath();
-
 private:
     QStringList findInitsPacks() const;
     static bool verifyInitsPack(const QString &path);

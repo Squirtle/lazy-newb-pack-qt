@@ -18,17 +18,6 @@ LocalInitsProvider::LocalInitsProvider( const QString& path, QObject* parent )
     }
 }
 
-QString LocalInitsProvider::dinitPath()
-{
-
-}
-
-QString LocalInitsProvider::initPath()
-{
-
-}
-
-
 QStringList LocalInitsProvider::findInitsPacks() const
 {
     QStringList list;
