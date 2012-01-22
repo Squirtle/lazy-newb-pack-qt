@@ -4,6 +4,7 @@
 #include <QtilitiesCore/IObjectBase>
 
 #include "IGraphicsProvider.h"
+#include "IInitsProvider.h"
 
 /**
   * Provides access to all types of game data
@@ -15,6 +16,7 @@ public:
     virtual ~IGameDataProvider() {}
 
     virtual IGraphicsProvider* graphicsProvider() const = 0;
+    virtual IInitsProvider* initsProvider() const = 0;
 
 };
 
