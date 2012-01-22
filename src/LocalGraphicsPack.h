@@ -23,7 +23,14 @@ public:
     virtual QString name() const;
 
 private:
+    void parseIndex();
     QString m_path;
+    QString m_name;
+    QString m_author;
+    QString m_prettyVersion;
+    int m_version;
+    QString m_description;
+    QString m_iconPath;
 };
 
 #endif // LOCALGRAPHICSPACK_H

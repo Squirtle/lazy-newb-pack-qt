@@ -15,6 +15,11 @@ public:
     virtual QObject *objectBase() { return this; }
     virtual const QObject *objectBase() const { return this; }
 
+    /**
+      * Checks whether the supplied pack is a valid graphics pack
+      */
+    static bool verifyGraphicsPack(const QString& path);
+
 private:
     /**
       * Looks one level deep for valid graphics pack.

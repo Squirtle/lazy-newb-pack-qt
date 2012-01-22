@@ -7,6 +7,9 @@ QMAKE_CXXFLAGS += -std=c++0x
 include(../3rdparty/qtcreator/fancywidgets.pri)
 include(Qtilities.pri)
 
+LIBS += -lyaml-cpp
+INCLUDEPATH += /usr/include/yaml-cpp
+
 # Input
 HEADERS += functions.h lnplauncher.h optionsframe.h advancedframe.h graphicsframe.h \
     DwarfFortress.h \

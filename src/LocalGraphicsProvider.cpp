@@ -16,13 +16,21 @@ LocalGraphicsProvider::LocalGraphicsProvider( const QString &path, QObject *pare
 QStringList LocalGraphicsProvider::findGraphicsPacks() const
 {
     QStringList list;
-    if( [](QDir dir){ return dir.exists() && dir.isReadable();}(QDir(m_path)) ) return list;
+    if( [](QDir dir){ return !dir.exists() || !dir.isReadable();}(QDir(m_path)) ) return list;
     QDirIterator it(m_path, QDir::NoDotAndDotDot | QDir::Dirs);
     while (it.hasNext()) {
-        QDir sub_dir(it.next());
-        QStringList sub_sub_items = sub_dir.entryList();
-        if( sub_sub_items.contains("data") && sub_sub_items.contains("raw") )
-            list << sub_dir.path();
+        if( LocalGraphicsProvider::verifyGraphicsPack( it.next() ) )
+            list << it.path();
     }
     return list;
+}
+
+bool LocalGraphicsProvider::verifyGraphicsPack(const QString &path)
+{
+    const QDir dir(path);
+    if( [dir](){ return !dir.exists() || !dir.isReadable();}() ) return false;
+    QStringList sub_items = dir.entryList();
+    if( sub_items.contains("data") && sub_items.contains("raw") )
+        return true;
+    return false;
 }
