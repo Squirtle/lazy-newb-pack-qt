@@ -3,6 +3,10 @@
 
 #include "IGameData.h"
 
+namespace YAML {
+    class Node;
+}
+
 class LocalGameData : public virtual IGameData
 {
 
@@ -29,6 +33,9 @@ private:
     int m_version;
     QString m_description;
     QString m_iconPath;
+    IGameData::GameDataTypes m_dataType;
 };
+
+void operator >> (const YAML::Node& node, IGameData::GameDataTypes& types);
 
 #endif // LOCALGAMEDATA_H

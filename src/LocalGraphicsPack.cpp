@@ -25,3 +25,11 @@ bool LocalGraphicsPack::dataAvailable() const
 {
     return LocalGraphicsProvider::verifyGraphicsPack(m_path);
 }
+
+IGameData::GameDataTypes LocalGraphicsPack::provides() const
+{
+    // In case the there isn't a yaml manifest
+    if( LocalGameData::provides() == IGameData::NoData )
+        return IGameData::Graphics | IGameData::Tileset;
+    return LocalGameData::provides();
+}

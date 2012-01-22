@@ -16,6 +16,7 @@ public:
 
     virtual QString dataPath() const;
     virtual bool dataAvailable() const;
+    virtual GameDataTypes provides() const;
 
     QObject* objectBase() { return this; }
     const QObject* objectBase() const { return this; }

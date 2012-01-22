@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
+#include <QString>
 
 LocalGameData::LocalGameData()
 {
@@ -50,7 +51,7 @@ QString LocalGameData::packId() const
 
 IGameData::GameDataTypes LocalGameData::provides() const
 {
-    return IGameData::Graphics | IGameData::Tileset;
+    return m_dataType;
 }
 
 QString LocalGameData::name() const
@@ -91,5 +92,35 @@ void LocalGameData::parseManifest( const QString& filepath )
     const QString icon_path = yaml_info.absolutePath() + QDir::separator() + "icon.png";
     if( QFileInfo(icon_path).exists() )
         m_iconPath = icon_path;
+
+    doc >> m_dataType;
+
+    qDebug() << "Parsed yaml" << m_name << m_author << m_description << m_version << m_prettyVersion << m_iconPath << m_dataType;
+
 }
+
+void operator>>( const YAML::Node& node, IGameData::GameDataTypes& types )
+{
+    try {
+        const YAML::Node& provides_list = node["provides"];
+        for(unsigned i=0;i<provides_list.size();i++) {
+            std::string type_std_str;
+            provides_list[i] >> type_std_str;
+            QString type_str( QString::fromStdString(type_std_str).toLower() );
+
+            if(type_str == "graphics")
+                types |= IGameData::Graphics;
+            else if(type_str == "tileset")
+                types |= IGameData::Tileset;
+            else if(type_str == "inits")
+                types |= IGameData::Inits;
+            else if(type_str == "keybinds")
+                types |= IGameData::Keybinds;
+        }
+    } catch(YAML::RepresentationException& e) {
+        qDebug() << "LocalGameData::" << "failed to parse 'provides'";
+
+    }
+}
+
 
