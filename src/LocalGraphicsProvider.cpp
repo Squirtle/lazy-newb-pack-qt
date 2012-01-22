@@ -34,7 +34,9 @@ bool LocalGraphicsProvider::verifyGraphicsPack(const QString &path)
     const QDir dir(path);
     if( [dir](){ return !dir.exists() || !dir.isReadable();}() ) return false;
     QStringList sub_items = dir.entryList();
-    if( sub_items.contains("data") && sub_items.contains("raw") )
+    if( sub_items.contains("data") && sub_items.contains("raw") ) {
+        qDebug() << "Found graphics pack: " << path;
         return true;
+    }
     return false;
 }
