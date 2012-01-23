@@ -4,6 +4,7 @@
 
 #include <QtilitiesCore>
 #include <QDir>
+#include <QFileSystemWatcher>
 
 LocalKeybindsProvider::LocalKeybindsProvider( const QString& path, QObject* parent )
     :QObject(parent)
@@ -12,12 +13,17 @@ LocalKeybindsProvider::LocalKeybindsProvider( const QString& path, QObject* pare
     QDir dir(m_path);
     if(!dir.exists()) { qWarning() << "LocalKeybindsProvider:: path doesn't exist" << path; /* TODO: handle */ }
 
-    QStringList pack_paths = findKeybinds();
-    foreach(const QString &path, pack_paths) {
-        LocalKeybindsBundle* pack = new LocalKeybindsBundle(path, this);
-        qDebug() << "LocalKeybindsProvider:: found keybinds" << pack->name() << pack->keybindsFilePath();
-        OBJECT_MANAGER->registerObject(pack);
-    }
+    addKeybinds();
+
+    m_fsWatcher = new QFileSystemWatcher(QStringList() << path, this);
+    connect(m_fsWatcher, SIGNAL(directoryChanged(QString)), SLOT(keybindsDirChanged()));
+    connect(m_fsWatcher, SIGNAL(fileChanged(QString)), SLOT(keybindsDirChanged()));
+}
+
+void LocalKeybindsProvider::keybindsDirChanged()
+{
+    qDebug() << "LocalKeybindsProvider" << "something changed.. scanning";
+    addKeybinds();
 }
 
 QStringList LocalKeybindsProvider::findKeybinds() const
@@ -31,6 +37,16 @@ QStringList LocalKeybindsProvider::findKeybinds() const
             list << txt_file;
     }
     return list;
+}
+
+void LocalKeybindsProvider::addKeybinds()
+{
+    QStringList pack_paths = findKeybinds();
+    foreach(const QString &path, pack_paths) {
+        LocalKeybindsBundle* pack = new LocalKeybindsBundle(path, this);
+        qDebug() << "LocalKeybindsProvider:: found keybinds" << pack->name() << pack->keybindsFilePath();
+        OBJECT_MANAGER->registerObject(pack);
+    }
 }
 
 bool LocalKeybindsProvider::verifyKeybinds(const QString &path)
