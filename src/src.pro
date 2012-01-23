@@ -41,7 +41,8 @@ HEADERS += functions.h lnplauncher.h optionsframe.h advancedframe.h graphicsfram
     InitsBundle.h \
     DFDataManager.h \
     LocalKeybindsProvider.h \
-    LocalKeybindsBundle.h
+    LocalKeybindsBundle.h \
+    GameDataModel.h
 
 SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe.cpp graphicsframe.cpp \
     DwarfFortress.cpp \
@@ -70,7 +71,8 @@ SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe
     InitsBundle.cpp \
     DFDataManager.cpp \
     LocalKeybindsProvider.cpp \
-    LocalKeybindsBundle.cpp
+    LocalKeybindsBundle.cpp \
+    GameDataModel.cpp
 
 
 FORMS += \

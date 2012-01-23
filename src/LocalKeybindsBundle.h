@@ -9,6 +9,7 @@
 class LocalKeybindsBundle : public QObject, public IKeybindsBundle, public LocalGameData
 {
 Q_OBJECT
+Q_INTERFACES(IKeybindsBundle)
 public:
     LocalKeybindsBundle(const QString &path, QObject* parent = nullptr);
     virtual ~LocalKeybindsBundle();

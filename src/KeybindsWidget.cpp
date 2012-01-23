@@ -3,9 +3,16 @@
 #include "DwarfFortress.h"
 #include "functions.h"
 
+#include "IKeybindsBundle.h"
+#include "GameDataModel.h"
+
+#include <QtilitiesCoreGui>
+#include <QtilitiesCore>
+
 #include <QPushButton>
 #include <QListView>
 #include <QGridLayout>
+#include <QTimer>
 
 KeybindsWidget::KeybindsWidget(QWidget *parent) :
     QWidget(parent)
@@ -25,14 +32,52 @@ KeybindsWidget::KeybindsWidget(QWidget *parent) :
     getKeybindings(m_list);
     m_model = new StringListModel(m_list);
     m_view->setModel(m_model);
-    grid->addWidget(m_view, 0, 0, 3, 1);
+
+    m_keybindsObserver = new QtilitiesCore::Observer;
+    QtilitiesCoreGui::ObserverWidget* observer_widget = new QtilitiesCoreGui::ObserverWidget;
+    observer_widget->setCustomTreeModel(new GameDataModel(this));
+    observer_widget->setObserverContext(m_keybindsObserver);
+    observer_widget->initialize();
+    observer_widget->show();
+
+    grid->addWidget(observer_widget, 0, 0, 3, 1);
     grid->addWidget(m_load, 0, 1, 1, 2);
     grid->addWidget(m_save, 1, 1, 1, 2);
     grid->addWidget(m_refresh, 2, 1, 1, 1);
     grid->addWidget(m_del, 2, 2, 1, 1);
 
     setLayout(grid);
+
+    connect( OBJECT_MANAGER, SIGNAL(newObjectAdded(QObject*)), this, SLOT(globalObjectAdded(QObject*)));
+    QTimer::singleShot(0, this, SLOT(gatherData()));
 }
+
+void KeybindsWidget::globalObjectAdded( QObject* obj )
+{
+    IKeybindsBundle *bundle = qobject_cast< IKeybindsBundle* >(obj);
+    if( bundle ) {
+        bundle->objectBase()->setObjectName(bundle->name());
+        m_keybindsObserver->attachSubject( obj );
+    }
+}
+
+void KeybindsWidget::gatherData()
+{
+    QList<QObject*> ifaces = OBJECT_MANAGER->registeredInterfaces("com.lazynewb.IKeybindsBundle/1.0");
+    qDebug() << "gathering shit" << ifaces.length() << OBJECT_MANAGER->objectPool()->subjectCount();
+    foreach(QObject* obj, ifaces) {
+        IKeybindsBundle *bundle = qobject_cast< IKeybindsBundle* >(obj);
+        qDebug() << "helllo" <<bundle;
+        if( bundle ) {
+            qDebug() << "Found keybinds bundle" << bundle->name() << bundle->objectBase();
+            bundle->objectBase()->setObjectName(bundle->name());
+            bool result = m_keybindsObserver->attachSubject( obj );
+            qDebug() << "ATTACH RESULT" << result;
+        }
+    }
+}
+
+
 
 
 void KeybindsWidget::load_pressed()
