@@ -42,8 +42,10 @@ QStringList LocalKeybindsProvider::findKeybinds() const
 void LocalKeybindsProvider::addKeybinds()
 {
     QStringList pack_paths = findKeybinds();
+    qDeleteAll(m_bundles);
     foreach(const QString &path, pack_paths) {
         LocalKeybindsBundle* pack = new LocalKeybindsBundle(path, this);
+        m_bundles << pack;
         qDebug() << "LocalKeybindsProvider:: found keybinds" << pack->name() << pack->keybindsFilePath();
         OBJECT_MANAGER->registerObject(pack);
     }

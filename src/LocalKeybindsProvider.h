@@ -7,6 +7,7 @@
 #include <QString>
 
 class QFileSystemWatcher;
+class LocalKeybindsBundle;
 
 class LocalKeybindsProvider : public QObject
 {
@@ -26,6 +27,7 @@ private:
 
     QString m_path;
     QFileSystemWatcher* m_fsWatcher;
+    QList<LocalKeybindsBundle*> m_bundles;
 };
 
 #endif // LOCALKEYBINDSPROVIDER_H
