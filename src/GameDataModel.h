@@ -3,7 +3,7 @@
 
 #include <QtilitiesCoreGui>
 
-class GameDataModel : public QtilitiesCoreGui::ObserverTreeModel
+class GameDataModel : public QtilitiesCoreGui::ObserverTableModel
 {
 Q_OBJECT
 public:

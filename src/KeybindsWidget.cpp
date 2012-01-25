@@ -13,6 +13,7 @@
 #include <QListView>
 #include <QGridLayout>
 #include <QTimer>
+#include <QListView>
 
 KeybindsWidget::KeybindsWidget(QWidget *parent) :
     QWidget(parent)
@@ -33,12 +34,18 @@ KeybindsWidget::KeybindsWidget(QWidget *parent) :
     m_model = new StringListModel(m_list);
     m_view->setModel(m_model);
 
-    m_keybindsObserver = new QtilitiesCore::Observer;
+    m_keybindsObserver = new QtilitiesCore::Observer("keybindsObserver", "", this);
     QtilitiesCoreGui::ObserverWidget* observer_widget = new QtilitiesCoreGui::ObserverWidget;
-    observer_widget->setCustomTreeModel(new GameDataModel(this));
+    observer_widget->setDisplayMode(Qtilities::TableView);
+    observer_widget->setCustomTableModel(new GameDataModel(this));
     observer_widget->setObserverContext(m_keybindsObserver);
+    QtilitiesCoreGui::ObserverHints* hints = observer_widget->activeHints();
+    hints->setDisplayFlagsHint(Qtilities::Core::ObserverHints::ItemView);
+    hints->setHierarchicalDisplayHint(Qtilities::Core::ObserverHints::FlatHierarchy);
+    observer_widget->setCustomHints(hints);
     observer_widget->initialize();
-    observer_widget->show();
+    observer_widget->tableView()->horizontalHeader()->hide();
+    observer_widget->tableView()->verticalHeader()->hide();
 
     grid->addWidget(observer_widget, 0, 0, 3, 1);
     grid->addWidget(m_load, 0, 1, 1, 2);
@@ -76,9 +83,6 @@ void KeybindsWidget::gatherData()
         }
     }
 }
-
-
-
 
 void KeybindsWidget::load_pressed()
 {

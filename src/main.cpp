@@ -25,6 +25,9 @@ int main(int argc, char *argv[])
   QIcon::setThemeSearchPaths(QStringList() << searchPath);
   QIcon::setThemeName( "fallback" );
   MainWindow window;
+  Qtilities::CoreGui::QtilitiesApplication::setMainWindow(&window);
+  qDebug() << Qtilities::CoreGui::QtilitiesApplication::mainWindow();
+  window.init();
   window.show();
   /*LNPLauncher launcher;
   launcher.show();*/

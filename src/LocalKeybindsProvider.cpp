@@ -43,6 +43,7 @@ void LocalKeybindsProvider::addKeybinds()
 {
     QStringList pack_paths = findKeybinds();
     qDeleteAll(m_bundles);
+    m_bundles.clear();
     foreach(const QString &path, pack_paths) {
         LocalKeybindsBundle* pack = new LocalKeybindsBundle(path, this);
         m_bundles << pack;

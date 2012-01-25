@@ -24,11 +24,22 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_dataManager( new DFDataManager(this) )
+    m_dataManager( new DFDataManager(this) ),
+    m_init(false)
 {
     ui->setupUi(this);
 
-    new LocalGameDataProvider(QDir::current().absolutePath()+QDir::separator() +"LNP", this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::init()
+{
+    if(m_init) return;
+    m_init = true;
     const bool has_data = verifyLNPData();
     if( !has_data ) {
         hide();
@@ -57,13 +68,14 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->tabs->SetMode(FancyTabWidget::Mode(default_mode));
     }
 
+    QTimer::singleShot(0, this, SLOT(loadLocalData()));
 }
 
-MainWindow::~MainWindow()
+
+void MainWindow::loadLocalData()
 {
-    delete ui;
+     new LocalGameDataProvider(QDir::current().absolutePath()+QDir::separator() +"LNP", this);
 }
-
 
 bool MainWindow::verifyLNPData()
 {
