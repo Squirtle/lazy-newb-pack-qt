@@ -119,3 +119,14 @@ void ChangeFrame::update_pressed()
     view->setModel(model);
     view->update();
 }
+
+void ChangeFrame::reload()
+{
+    truetype->setText(tr("TrueType Fonts: ") + getOption(tr("TRUETYPE")));
+    update_pressed();
+}
+
+void GraphicsFrame::reload()
+{
+    changeframe->reload();
+}

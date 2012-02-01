@@ -12,6 +12,7 @@ class OptionFrame : public QGroupBox
 
 public:
     OptionFrame();
+    void reload();
     
 private slots:
     void economy_pressed();
@@ -35,6 +36,7 @@ class ModFrame : public QGroupBox
 
 public:
     ModFrame();
+    void reload();
     
 private slots:
     void aquifers_pressed();
@@ -53,10 +55,12 @@ class KeyFrame : public QGroupBox
 public:
     KeyFrame();
 
+public slots:
+    void refresh_pressed();
+
 private slots:
     void load_pressed();
     void del_pressed();
-    void refresh_pressed();
     void save_pressed();
     
 private:
@@ -74,6 +78,7 @@ class MainOptionsFrame : public QFrame
 
 public:
     MainOptionsFrame();
+    void reload();
     
 private slots:
 

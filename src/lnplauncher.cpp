@@ -16,6 +16,7 @@ LNPLauncher::LNPLauncher()
     grid = new QGridLayout();
     central = new QWidget();
     dialog = new InitDialog();
+    mapper = new QSignalMapper();
 
     dialog->resize(600, 500);
 
@@ -32,9 +33,11 @@ LNPLauncher::LNPLauncher()
     tab->addTab(gtab, "Graphics");
     tab->addTab(atab, "Advanced");
     
-//    setCentralWidget(tab);
     central->setLayout(grid);
     setCentralWidget(central);
+
+    create_actions();
+    create_menus();
 }
 
 InitDialog::InitDialog(QWidget *parent, Qt::WindowFlags f)
@@ -82,7 +85,8 @@ void LNPLauncher::play_pressed()
 void LNPLauncher::init_pressed()
 {
     dialog->load_pressed();
-    dialog->show();
+    dialog->exec();
+    reload();
 }
 
 void LNPLauncher::defaults_pressed()
@@ -103,7 +107,6 @@ void LNPLauncher::defaults_pressed()
         newinit.write(*buffer);
         newinit.close();
         olddinit.open(QFile::ReadOnly);
-        buffer = new QByteArray(olddinit.readAll());
         olddinit.close();
         newdinit.open(QFile::WriteOnly | QFile::Truncate);
         newdinit.write(*buffer);
@@ -112,6 +115,7 @@ void LNPLauncher::defaults_pressed()
         QMessageBox success;
         success.setText(tr("Init settings restored to defaults!"));
         success.exec();
+        reload();
     }
 }
 
@@ -141,23 +145,23 @@ void InitDialog::save_pressed()
     dinitfile.close();
 }
 
-/*
- 
 void LNPLauncher::create_actions()
 {
+    linkList << "$DF/data/save/" << "./LNP/Utilities/" << "./LNP/Graphics/" << "$DF" << "./LNP/Extras/data/" << "./LNP/" << "$DF/data/init/" << "http://www.bay12games.com/dwarves/"<< "http://df.magmawiki.com/" << "http://www.bay12forums.com/smf/" << "http://www.bay12forums.com/smf/index.php?topic=59026.0";
+
+    if (getDFFolder() != "ERR")
+        linkList.replaceInStrings("$DF", getDFFolder());
+    else
+        linkList.replaceInStrings("$DF", "DF Folder not found");
+
     reloadAct = new QAction(tr("&Re-load param set"), this);
     reloadAct->setShortcuts(QKeySequence::Open);
     reloadAct->setStatusTip(tr("Note: LNP loads when opened."));
     connect(reloadAct, SIGNAL(triggered()), this, SLOT(reload()));
 
-    resaveAct = new QAction(tr("&Re-save param set"), this);
-    resaveAct->setShortcuts(QKeySequence::Save);
-    resaveAct->setStatusTip(tr("Note: LNP automatically saves."));
-    connect(resaveAct, SIGNAL(triggered()), this, SLOT(resave()));
-
     exitAct = new QAction(tr("&Exit"), this);
     exitAct->setShortcuts(QKeySequence::Quit);
-    connect(exitAct, SIGNAL(triggered()), this, SLOT(exit()));
+    connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
     dfAct = new QAction(tr("&Dwarf Fortress"), this);
     connect(dfAct, SIGNAL(triggered()), this, SLOT(play_pressed()));
@@ -165,37 +169,96 @@ void LNPLauncher::create_actions()
     initAct = new QAction(tr("&Init File Editor"), this);
     connect(initAct, SIGNAL(triggered()), this, SLOT(init_pressed()));
 
+    //In retrospect, the following could be made into a loop by using containers.
+
     savefolderAct = new QAction(tr("&Savegame Folder"), this);
-    connect(savefolderAct, SIGNAL(triggered()), this, SLOT(folder(getDFFolder() + tr("/data/save/"))));
+    connect(savefolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(savefolderAct, linkList[0]);
 
     utilsfolderAct = new QAction(tr("&Utilities Folder"), this);
-    connect(utilsfolderAct, SIGNAL(triggered()), this, SLOT(folder(tr("./LNP/Utilities/"))));
+    connect(utilsfolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(utilsfolderAct, linkList[1]);
 
     graphicsfolderAct = new QAction(tr("&Graphics Folder"), this);
-    connect(graphicsfolderAct, SIGNAL(triggered()), this, SLOT(folder(tr("./LNP/Graphics/"))));
+    connect(graphicsfolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(graphicsfolderAct, linkList[2]);
 
     dffolderAct = new QAction(tr("&Dwarf Fortress Folder"), this);
-    connect(dffolderAct, SIGNAL(triggered()), this, SLOT(folder(getDFFolder())));
+    connect(dffolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(dffolderAct, linkList[3]);
 
     lnpdatafolderAct = new QAction(tr("&LNP Data Folder"), this);
-    connect(lnpdatafolderAct, SIGNAL(triggered()), this, SLOT(folder(tr("./LNP/Extras/data/")))); //Check this one on a Windows machine. Proabaly would be a good idea to check all of them that aren't super obvious, actually.
+    connect(lnpdatafolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(lnpdatafolderAct, linkList[4]);
 
     lnprootfolderAct = new QAction(tr("&LNP Root Folder"), this);
-    connect(lnprootfolderAct, SIGNAL(triggered()), this, SLOT(folder(tr("./LNP/"))));
+    connect(lnprootfolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(lnprootfolderAct, linkList[5]);
 
     dfinitfolderAct = new QAction(tr("&DF Init Folder"), this);
-    connect(dfinitfolderAct, SIGNAL(triggered()), this, SLOT(folder(getDFFolder() + tr("/data/init/"))));
+    connect(dfinitfolderAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(dfinitfolderAct, linkList[6]);
 
     dfhomepageAct = new QAction(tr("&DF Homepage"), this);
-    connect(dfhomepageAct, SIGNAL(triggered()), this, SLOT(link(tr("http://www.bay12games.com/dwarves/"))));
+    connect(dfhomepageAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(dfhomepageAct, linkList[7]);
 
     dfwikiAct = new QAction(tr("&DF Wiki"), this);
-    connect(dfhomepageAct, SIGNAL(triggered()), this, SLOT(link(tr("http://df.magmawiki.com/"))));
+    connect(dfwikiAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(dfwikiAct, linkList[8]);
 
     dfforumsAct = new QAction(tr("&DF Forums"), this);
-    connect(dfhomepageAct, SIGNAL(triggered()), this, SLOT(link(tr("http://www.bay12forums.com/smf/"))));
+    connect(dfforumsAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(dfforumsAct, linkList[9]);
 
     lnpthreadAct = new QAction(tr("&LNP Forum Thread"), this);
-    connect(dfhomepageAct, SIGNAL(triggered()), this, SLOT(link(tr("http://www.bay12forums.com/smf/index.php?topic=59026.0"))));
+    connect(lnpthreadAct, SIGNAL(triggered()), mapper, SLOT(map()));
+    mapper->setMapping(lnpthreadAct, linkList[10]);
+
+    connect(mapper, SIGNAL(mapped(const QString &)), this, SLOT(open(const QString &)));
 }
-*/
+
+void LNPLauncher::create_menus()
+{
+    filemenu = menuBar()->addMenu(tr("&File"));
+    filemenu->addAction(reloadAct);
+    filemenu->addAction(exitAct);
+
+    runmenu = menuBar()->addMenu(tr("&Run"));
+    runmenu->addAction(dfAct);
+    runmenu->addAction(initAct);
+
+    openmenu = runmenu->addMenu(tr("&Open Folder"));
+    openmenu->addAction(savefolderAct);
+    openmenu->addAction(utilsfolderAct);
+    openmenu->addAction(graphicsfolderAct);
+    openmenu->addSeparator();
+    openmenu->addAction(dffolderAct);
+    openmenu->addAction(lnpdatafolderAct);
+    openmenu->addSeparator();
+    openmenu->addAction(lnprootfolderAct);
+    openmenu->addAction(dfinitfolderAct);
+
+    linksmenu = menuBar()->addMenu(tr("&Links"));
+    linksmenu->addAction(dfhomepageAct);
+    linksmenu->addAction(dfwikiAct);
+    linksmenu->addAction(dfforumsAct);
+    linksmenu->addAction(lnpthreadAct);
+}
+
+void LNPLauncher::reload()
+{
+    otab->reload();
+    gtab->reload();
+    atab->reload();
+}
+
+void LNPLauncher::open(const QString &path)
+{
+    #ifdef Q_WS_X11
+        QProcess::startDetached(tr("xdg-open \"") + path + tr("\""));
+    #endif
+    #ifdef Q_WS_WIN
+        QProcess::startDetached(tr("start \"") + path + tr("\""));
+    #endif
+}
