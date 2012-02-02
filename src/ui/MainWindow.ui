@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Lazy Newb Pack</string>
   </property>
   <widget class="FancyTabWidget" name="tabs">
    <layout class="QVBoxLayout" name="verticalLayout">
