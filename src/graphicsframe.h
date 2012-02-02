@@ -12,7 +12,6 @@ class ChangeFrame : public QGroupBox
 
 public:
     ChangeFrame();
-    void reload();
 
 private slots:
     void install_pressed();
@@ -54,7 +53,6 @@ class GraphicsFrame : public QFrame
 
 public:
     GraphicsFrame();
-    void reload();
 
 private:
     ChangeFrame *changeframe;

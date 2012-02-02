@@ -329,28 +329,3 @@ void KeyFrame::save_pressed()
         view->update();
     }
 }
-
-void OptionFrame::reload()
-{
-    economy->setText(tr("Economy: ") + getOption(tr("ECONOMY")));
-    temperature->setText(tr("Temperature: ") + getOption(tr("TEMPERATURE")));
-    weather->setText(tr("Weather: ") + getOption(tr("WEATHER")));
-    caveins->setText(tr("Cave-ins: ") + getOption(tr("CAVEINS")));
-    invaders->setText(tr("Invaders: ") + getOption(tr("INVADERS")));
-    liquid->setText(tr("Liquid Depth: ") + getOption(tr("SHOW_FLOW_AMOUNTS")));
-    popcap->setText(tr("Population Cap: ") + getOption(tr("POPULATION_CAP")));
-    childcap->setText(tr("Child Cap: ") + getOption(tr("BABY_CHILD_CAP")));
-}
-
-void ModFrame::reload()
-{
-    aquifers->setText(tr("Aquifers: ") + rawsFind("[AQUIFER]"));
-    exotic->setText(tr("Exotic Animals: ") + tr("NO"));
-}
-
-void MainOptionsFrame::reload()
-{
-    oframe->reload();
-    mframe->reload();
-    kframe->refresh_pressed();  // Reusing this function, as it does exactly what we want.
-}

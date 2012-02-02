@@ -11,7 +11,6 @@ class SoundFrame : public QGroupBox
 
 public:
     SoundFrame();
-    void reload();
 
 private slots:
     void sound_pressed();
@@ -33,7 +32,6 @@ class FPSFrame : public QGroupBox
 
 public:
     FPSFrame();
-    void reload();
 
 private slots:
     void counter_pressed();
@@ -57,7 +55,6 @@ class StartupFrame : public QGroupBox
 
 public:
     StartupFrame();
-    void reload();
 
 private slots:
     void intro_pressed();
@@ -76,7 +73,6 @@ class SaveFrame : public QGroupBox
 
 public:
     SaveFrame();
-    void reload();
 
 private slots:
     void autosave_pressed();
@@ -99,7 +95,6 @@ class AdvancedFrame : public QFrame
 
 public:
     AdvancedFrame();
-    void reload();
 
 private slots:
     void procpriority_pressed();
