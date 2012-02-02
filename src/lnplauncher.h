@@ -39,12 +39,6 @@ private slots:
     void play_pressed();
     void init_pressed();
     void defaults_pressed();
-<<<<<<< HEAD:inc/lnplauncher.hpp
-    void reload(); // Reloads all options from the init files and RAWs.
-    void open(const QString &path); // Opens the file, folder, or website located at path with the default program.
-//  TODO:  void about(); // Opens an about dialog.
-
-=======
     void change_install_pressed();
 /*  void reload(); // Reloads all options from the init files and RAWs.
     void resave(); // Resaves all options to the init files and RAWs.
@@ -54,7 +48,6 @@ private slots:
     void link(QString URL); // Opens the link in the default web browser.
     void about(); // Opens an about dialog.
 */
->>>>>>> ramblurr/master:src/lnplauncher.h
 
     void dataChanged();
 
@@ -69,23 +62,15 @@ private:
     GraphicsFrame* gtab;
     QGridLayout* grid;
     QWidget* central;
-
-    QSignalMapper* mapper;
-    QStringList linkList; //list of links and folders to be opened by the menu, to be used by the QSignalMapper
-
     InitDialog *dialog;
-<<<<<<< HEAD:inc/lnplauncher.hpp
-
-    QMenu *filemenu;
-=======
     QLabel *df_location;
 /*  QMenu *filemenu;
->>>>>>> ramblurr/master:src/lnplauncher.h
     QMenu *runmenu;
     QMenu *openmenu;
     QMenu *linksmenu;
-//  QMenu *helpmenu;
+    QMenu *helpmenu;
     QAction *reloadAct;
+    QAction *resaveAct;
     QAction *exitAct;
     QAction *dfAct;
     QAction *initAct;
@@ -100,7 +85,8 @@ private:
     QAction *dfwikiAct;
     QAction *dfforumsAct;
     QAction *lnpthreadAct;
-//  QAction *aboutAct;
+    QAction *aboutAct;
+*/
     
 };
 #endif //LNPLAUNDER_HPP
