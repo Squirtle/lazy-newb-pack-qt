@@ -1,140 +1,9 @@
-/* functions.hpp
+/* functions.h
  * This source file contains various functions which are used throughout the code, along with the StringListModel class.
  */
-#include "functions.hpp"
+#include "functions.h"
 
-QString getDFFolder()
-{
-  //Return first folder with "Dwarf Fortress" in its name
-  QString DFFolderName;
-  QDirIterator it(QObject::tr("."), QDir::NoDotAndDotDot | QDir::Dirs);
-  while (it.hasNext())
-    {
-      DFFolderName = it.next();
-      if (DFFolderName.contains(QObject::tr("Dwarf Fortress")))
-        {
-          return DFFolderName;
-        }
-    }
-  return QObject::tr("ERR");
-}
-
-static QString DFFolderName = getDFFolder();
-
-void rawsReplace(QString old, QString replaced)
-{
-  QVector<QString> rawList;
-  QDirIterator it(DFFolderName + QObject::tr("/raw/objects/"), QDir::Files);
-  while (it.hasNext())
-    {
-    	rawList.push_back(it.next());
-    }
-
-  QFile rawFile;
-  QString* buffer;
-
-  foreach (QString i, rawList)
-    {
-      rawFile.setFileName(i);
-      rawFile.open(QIODevice::ReadOnly | QIODevice::Text);
-      buffer = new QString(rawFile.readAll());
-      rawFile.close();
-      buffer->replace(old, replaced); 
-      rawFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
-      rawFile.write(buffer->toAscii());
-      rawFile.close();
-      delete buffer;
-    }
-  return;
-}
-
-QString rawsFind(QString find)
-{
-  
-  QVector<QString> rawList;
-  QDirIterator it(DFFolderName + QObject::tr("/raw/objects/"), QDir::Files);
-  while (it.hasNext())
-    {
-    	rawList.push_back(it.next());
-    }
-
-  QFile rawFile;
-
-  foreach (QString i, rawList)
-    {
-      rawFile.setFileName(i);
-      rawFile.open(QIODevice::ReadOnly | QIODevice::Text);
-      QString* temp = new QString(rawFile.readAll());
-      rawFile.close();
-      if (temp->contains(find))
-        return QObject::tr("YES");
-      delete temp;
-    }
-  return QObject::tr("NO");
-}
-
-QString getOption(QString option)
-{
-  // Fetch option setting given option (eg getOption("WEATHER") returns either YES or NO depending on the init file)
-
-  QFile init(DFFolderName + QObject::tr("/data/init/init.txt")), dinit(DFFolderName + QObject::tr("/data/init/d_init.txt"));
-  
-  init.open(QIODevice::ReadOnly | QIODevice::Text);
-  dinit.open(QIODevice::ReadOnly | QIODevice::Text);
-  //TODO: Add failure exceptions
-
-  QString text;
-  text = init.readAll();
-  text += dinit.readAll();
-
-  init.close();
-  dinit.close();
-
-  return text.mid(text.indexOf(QObject::tr("[") + option + QObject::tr(":")) + option.size() + 2, text.indexOf(QObject::tr("]"), text.indexOf(QObject::tr("[") + option + QObject::tr(":"))) - text.indexOf(QObject::tr("[") + option + QObject::tr(":")) - option.size() - 2);
-}
-
-void setOption(QString option, QString newValue)
-{
-  //Set option's value to newValue
-
-  QFile init(DFFolderName + QObject::tr("/data/init/init.txt")), dinit(DFFolderName + QObject::tr("/data/init/d_init.txt"));
-  
-  dinit.open(QIODevice::ReadOnly | QIODevice::Text);
-  //TODO: Add failure exceptions
-
-  QString* buffer;
-  buffer = new QString(dinit.readAll());
-  dinit.close();
-
-  if ((buffer->indexOf("[" + option + ":") != -1) && (buffer->indexOf("]", buffer->indexOf("[" + option + ":")) != -1))
-    {
-      int begin_option = buffer->indexOf("[" + option + ":") + ("[" + option + ":").size();
-      int option_length = buffer->indexOf("]", buffer->indexOf("[" + option + ":")) - ((buffer->indexOf("[" + option + ":") + ("[" + option + ":").size()));
-      buffer->remove(begin_option, option_length);
-      buffer->insert(begin_option, newValue);
-      dinit.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
-      dinit.write(buffer->toAscii());
-      dinit.close();
-    }
-  else
-    {
-      delete buffer;
-      dinit.close();
-      init.open(QIODevice::ReadOnly | QIODevice::Text);
-      buffer = new QString(init.readAll());
-      init.close();
-      int begin_option = buffer->indexOf("[" + option + ":") + ("[" + option + ":").size();
-      int option_length = buffer->indexOf("]", buffer->indexOf("[" + option + ":")) - ((buffer->indexOf("[" + option + ":") + ("[" + option + ":").size()));
-      buffer->remove(begin_option, option_length);
-      buffer->insert(begin_option, newValue);
-      init.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
-      init.write(buffer->toAscii());
-      init.close();
-    }
-  delete buffer;
-
-  return;
-}
+#include <QDebug>
 
 void getKeybindings(QStringList& list)
 {
@@ -162,53 +31,73 @@ QStringList getContents(QString dirname, bool folders)
     return list;
 }
 
-bool copyFile(QFile &file1, QFile &file2)
-{
-    bool ok1 = file1.open(QFile::ReadOnly);
-    QByteArray *buffer = new QByteArray(file1.readAll());
-    file1.close();
-    bool ok2 = file2.open(QFile::WriteOnly | QFile::Truncate);
-    file2.write(*buffer);
-    file2.close();
-    delete buffer;
-    return ok1 && ok2;
-}
-
-void cpDir1(QDir from, QStringList &list)
-{
-    QStringList filelist = from.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
-
-    foreach (QString file, filelist)
-    {
-        QFileInfo info(QString("%1/%2").arg(from.path()).arg(file));
-
-        if (info.isDir())
-        {
-            QDir newdir(info.filePath());
-            cpDir1(info.filePath(), list);
-        }
-        else
-            list << QDir::toNativeSeparators(info.filePath());
-    }
-}
-
-void cpDir2(QDir from, QDir to, QStringList list)
-{
-    //TODO: Error handling
-    foreach (QString file, list)
-    {
-        QFile filefrom(file);
-        QFile fileto(to.path() + file.remove(0, from.path().length()));
-        copyFile(filefrom, fileto);
-    }
-}
-
+// e.g.: cp something/foo /another/place/
+// puts 'foo' inside 'place'
 void cpDir(QDir from, QDir to)
 {
+    //qDebug () << "copying" << from.path() << " to " << to.path();
     //TODO: Error handling
-    QStringList list;
-    cpDir1(from, list);
-    cpDir2(from, to, list);
+    // Check to see if from exists in to, if not we mkdir it
+    if( to.entryList( QStringList(from.dirName()), QDir::Dirs).length() == 0 )
+        to.mkdir(from.dirName());
+
+    Q_ASSERT( QDir(to.path() + QDir::separator() + from.dirName()).exists() );
+
+    to.cd(from.dirName());
+    QFileInfoList entries_list = from.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+    QListIterator<QFileInfo> source_iterator( entries_list );
+    while(source_iterator.hasNext()) {
+        const QFileInfo item = source_iterator.next();
+
+        if( item.isDir() ) {
+            QDir src_subdir(item.absoluteFilePath());
+            QDir dest_subdir(to.path() + QDir::separator() + item.fileName());
+            //qDebug() << "src_subdir: " << src_subdir.path() << "dest_subdir: " << dest_subdir.path();
+
+            if( !dest_subdir.exists() )
+                to.mkdir(src_subdir.dirName());
+
+            Q_ASSERT(dest_subdir.exists());
+
+            cpDir(src_subdir, to);
+
+        } else if( item.isFile() ) {
+            const QString newName( to.absolutePath() + QDir::separator() + item.fileName() );
+            // QFile::copy doesn't overwite files, so we must remove them first
+            QFile newFile( newName );
+            if( newFile.exists() )
+                newFile.remove();
+            Q_ASSERT(!newFile.exists());
+            bool res = QFile::copy(item.absoluteFilePath(), newName);
+            Q_ASSERT(res);
+            Q_ASSERT(newFile.exists());
+        }
+    }
+}
+
+void rmrfDir(QDir d) {
+    QFileInfoList entries_list = d.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+    QListIterator<QFileInfo> dir_iterator( entries_list );
+    while(dir_iterator.hasNext()) {
+        const QFileInfo item = dir_iterator.next();
+
+        if( item.isDir() ) {
+
+            QDir subdir(item.absoluteFilePath());
+            rmrfDir(subdir);
+
+        } else if( item.isFile() ) {
+
+            QFile file(item.absoluteFilePath());
+            file.remove();
+
+        }
+    }
+    const QString dir_name = d.dirName();
+    d.cdUp();
+    const bool res = d.rmdir(dir_name);
+    Q_ASSERT(res);
+    Q_ASSERT(!QDir(d).cd(dir_name));
 }
 
 int StringListModel::rowCount(const QModelIndex &parent) const

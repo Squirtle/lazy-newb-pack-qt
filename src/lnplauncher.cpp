@@ -1,11 +1,22 @@
-/* lnplauncher.hpp
+/* lnplauncher.h
  * This is the source file which contains the code for main LNP window, as well as the init files editor.
  */
-#include "lnplauncher.hpp"
-#include "functions.hpp"
+#include "lnplauncher.h"
+#include "functions.h"
+#include "DwarfFortress.h"
+#include "DwarfFortressProcess.h"
+
+#include <QFileDialog>
+#include <QDesktopServices>
+#include <QProcess>
+#include <QProcessEnvironment>
 
 LNPLauncher::LNPLauncher()
 {
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
+    df_location = new QLabel(tr("Using DF Installation at: %1").arg(DwarfFortress::instance().getDFFolder()));
+    df_location->setAlignment(Qt::AlignHCenter);
+    QPushButton *df_changeInstall = new QPushButton(tr("Choose DF Installation"));
     play = new QPushButton(tr("Play Dwarf Fortress!"));
     init = new QPushButton(tr("Init File Editor"));
     defaults = new QPushButton(tr("Defaults"));
@@ -20,14 +31,17 @@ LNPLauncher::LNPLauncher()
 
     dialog->resize(600, 500);
 
+    connect(df_changeInstall, SIGNAL(pressed()), this, SLOT(change_install_pressed()));
     connect(play, SIGNAL(pressed()), this, SLOT(play_pressed()));
     connect(init, SIGNAL(pressed()), this, SLOT(init_pressed()));
     connect(defaults, SIGNAL(pressed()), this, SLOT(defaults_pressed()));
     
-    grid->addWidget(tab, 0, 0, 1, 3);
-    grid->addWidget(play, 1, 0, 1, 1);
-    grid->addWidget(init, 1, 1, 1, 1);
-    grid->addWidget(defaults, 1, 2, 1, 1);
+    grid->addWidget(df_location, 0, 0, 1, 3);
+    grid->addWidget(df_changeInstall, 1, 0, 1, 3);
+    grid->addWidget(tab, 2, 0, 1, 3);
+    grid->addWidget(play, 3, 0, 1, 1);
+    grid->addWidget(init, 3, 1, 1, 1);
+    grid->addWidget(defaults, 3, 2, 1, 1);
     
     tab->addTab(otab, "Options");
     tab->addTab(gtab, "Graphics");
@@ -50,7 +64,8 @@ InitDialog::InitDialog(QWidget *parent, Qt::WindowFlags f)
     dinit = new QTextEdit();
     QSplitter *splitter = new QSplitter();
 
-    QFile initfile(getDFFolder() + tr("/data/init/init.txt")), dinitfile(getDFFolder() + tr("/data/init/d_init.txt"));
+    QFile initfile(DwarfFortress::instance().getInitPath());
+    QFile dinitfile(DwarfFortress::instance().getDInitPath());
     initfile.open(QFile::ReadOnly);
     QString *inittext = new QString(initfile.readAll());
     initfile.close();
@@ -75,10 +90,22 @@ InitDialog::InitDialog(QWidget *parent, Qt::WindowFlags f)
 void LNPLauncher::play_pressed()
 {
     #ifdef Q_WS_X11
-        QProcess::startDetached(tr("\"") + getDFFolder() + tr("/df\""));
+        QProcessEnvironment env(  QProcessEnvironment::systemEnvironment () );
+
+        // Work around for bug in Debian/Ubuntu SDL patch.
+        env.insert( "SDL_DISABLE_LOCK_KEYS", "1");
+
+        // Center the screen.  Messes up resizing. TODO: who/what needs this?
+        //env.insert( "SDL_VIDEO_CENTERED", "1");
+
+        DwarfFortressProcess *df = new DwarfFortressProcess(this);
+        df->setWorkingDirectory(DwarfFortress::instance().getDFFolder());
+        df->setProcessEnvironment(env);
+        df->start("./libs/Dwarf_Fortress");
+
     #endif
     #ifdef Q_WS_WIN
-        QProcess::startDetached(tr("\"") + getDFFolder() + tr("/Dwarf Fortress.exe\""));
+        QProcess::startDetached("\"" + DwarfFortress::instance().getDFFolder() + "/Dwarf Fortress.exe\"");
     #endif
 }
 
@@ -99,7 +126,7 @@ void LNPLauncher::defaults_pressed()
     int sure = msg.exec();
     if (sure == QMessageBox::Yes)
     {
-        QFile oldinit(getDFFolder() + tr("/data/init/init.txt")), newinit(tr("./LNP/Defaults/init.txt")), olddinit(getDFFolder() + tr("/data/init/d_init.txt")), newdinit(tr("./LNP/Defaults/d_init.txt"));
+        QFile oldinit(DwarfFortress::instance().getInitPath()), newinit(tr("./LNP/Defaults/init.txt")), olddinit(DwarfFortress::instance().getDInitPath()), newdinit(tr("./LNP/Defaults/d_init.txt"));
         oldinit.open(QFile::ReadOnly);
         QByteArray *buffer = new QByteArray(oldinit.readAll());
         oldinit.close();
@@ -121,7 +148,7 @@ void LNPLauncher::defaults_pressed()
 
 void InitDialog::load_pressed()
 {
-    QFile initfile(getDFFolder() + tr("/data/init/init.txt")), dinitfile(getDFFolder() + tr("/data/init/d_init.txt"));
+    QFile initfile(DwarfFortress::instance().getInitPath()), dinitfile(DwarfFortress::instance().getDInitPath());
     initfile.open(QFile::ReadOnly);
     QString *inittext = new QString(initfile.readAll());
     initfile.close();
@@ -134,7 +161,7 @@ void InitDialog::load_pressed()
 
 void InitDialog::save_pressed()
 {
-    QFile initfile(getDFFolder() + tr("/data/init/init.txt")), dinitfile(getDFFolder() + tr("/data/init/d_init.txt"));
+    QFile initfile(DwarfFortress::instance().getInitPath()), dinitfile(DwarfFortress::instance().getDInitPath());
     initfile.open(QFile::WriteOnly | QFile::Truncate | QFile::Text);
     QString *inittext = new QString(init->toPlainText());
     initfile.write(inittext->toAscii());
@@ -145,6 +172,18 @@ void InitDialog::save_pressed()
     dinitfile.close();
 }
 
+<<<<<<< HEAD
+=======
+void LNPLauncher::change_install_pressed()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Choose DF Installation Directory"), QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    DwarfFortress::instance().setDFFolder(dir);
+    df_location->setText(tr("Using DF Installation at: %1").arg(DwarfFortress::instance().getDFFolder()));
+}
+
+/*
+ 
+>>>>>>> ramblurr/master
 void LNPLauncher::create_actions()
 {
     linkList << "$DF/data/save/" << "./LNP/Utilities/" << "./LNP/Graphics/" << "$DF" << "./LNP/Extras/data/" << "./LNP/" << "$DF/data/init/" << "http://www.bay12games.com/dwarves/"<< "http://df.magmawiki.com/" << "http://www.bay12forums.com/smf/" << "http://www.bay12forums.com/smf/index.php?topic=59026.0";
@@ -262,3 +301,15 @@ void LNPLauncher::open(const QString &path)
         QProcess::startDetached(tr("start \"") + path + tr("\""));
     #endif
 }
+<<<<<<< HEAD
+=======
+*/
+
+
+void LNPLauncher::dataChanged()
+{
+    df_location->setText(tr("Using DF Installation at: %1").arg(DwarfFortress::instance().getDFFolder()));
+    delete dialog;
+    dialog = new InitDialog();
+}
+>>>>>>> ramblurr/master

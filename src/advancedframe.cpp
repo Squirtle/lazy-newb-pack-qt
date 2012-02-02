@@ -1,14 +1,16 @@
 /* advancedframe.cpp
  * This is the source file which contains the code for the "Advanced" tab.
  */
-#include "advancedframe.hpp"
-#include "functions.hpp"
+#include "advancedframe.h"
+#include "functions.h"
+#include "DwarfFortress.h"
 
 SoundFrame::SoundFrame()
     : QGroupBox(tr("Sound"))
 {
-    sound = new QPushButton(tr("Sound: ") + getOption(tr("SOUND")));
-    volume = new QLineEdit(getOption(tr("VOLUME")));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
+    sound = new QPushButton(tr("Sound: ") + DwarfFortress::instance().getOption(tr("SOUND")));
+    volume = new QLineEdit(DwarfFortress::instance().getOption(tr("VOLUME")));
     maxvolume = new QLabel(tr("/255"));
     box = new QHBoxLayout();
 
@@ -24,12 +26,19 @@ SoundFrame::SoundFrame()
     setLayout(box);
 }
 
+void SoundFrame::dataChanged()
+{
+    sound->setText("Sound: " + DwarfFortress::instance().getOption("SOUND"));
+    volume->setText(DwarfFortress::instance().getOption("VOLUME"));
+}
+
 FPSFrame::FPSFrame()
     : QGroupBox(tr("FPS"))
 {
-    counter = new QPushButton(tr("FPS Counter: ") + getOption(tr("FPS")));
-    cFPScap = new QLineEdit(getOption(tr("FPS_CAP")));
-    gFPScap = new QLineEdit(getOption(tr("G_FPS_CAP")));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
+    counter = new QPushButton(tr("FPS Counter: ") + DwarfFortress::instance().getOption(tr("FPS")));
+    cFPScap = new QLineEdit(DwarfFortress::instance().getOption(tr("FPS_CAP")));
+    gFPScap = new QLineEdit(DwarfFortress::instance().getOption(tr("G_FPS_CAP")));
     cFPSlabel = new QLabel(tr("Calculation FPS Cap:"));
     gFPSlabel = new QLabel(tr("Graphical FPS Cap:"));
     box = new QVBoxLayout();
@@ -52,11 +61,19 @@ FPSFrame::FPSFrame()
     setLayout(box);
 }
 
+void FPSFrame::dataChanged()
+{
+    counter->setText("FPS Counter: " + DwarfFortress::instance().getOption("FPS"));
+    cFPScap->setText(DwarfFortress::instance().getOption("FPS_CAP"));
+    gFPScap->setText(DwarfFortress::instance().getOption("G_FPS_CAP"));
+}
+
 StartupFrame::StartupFrame()
     : QGroupBox(tr("Startup"))
 {
-    intro = new QPushButton(tr("Intro Movie: ") + getOption(tr("INTRO")));
-    windowed = new QPushButton(tr("Windowed: ") + getOption(tr("WINDOWED")));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
+    intro = new QPushButton(tr("Intro Movie: ") + DwarfFortress::instance().getOption(tr("INTRO")));
+    windowed = new QPushButton(tr("Windowed: ") + DwarfFortress::instance().getOption(tr("WINDOWED")));
     box = new QVBoxLayout();
 
     connect(intro, SIGNAL(pressed()), this, SLOT(intro_pressed()));
@@ -68,15 +85,22 @@ StartupFrame::StartupFrame()
     setLayout(box);
 }
 
+void StartupFrame::dataChanged()
+{
+    intro->setText("Intro Movie: " + DwarfFortress::instance().getOption("INTRO"));
+    windowed->setText("Windowed: " + DwarfFortress::instance().getOption("WINDOWED"));
+}
+
 SaveFrame::SaveFrame()
     : QGroupBox(tr("Save-related"))
 {
-    autosave = new QPushButton(tr("Autosave: ") + getOption(tr("AUTOSAVE")));
-    autopause = new QPushButton(tr("Autosave Pause: ") + getOption(tr("AUTOSAVE_PAUSE")));
-    initsave = new QPushButton(tr("Initial Save: ") + getOption(tr("INITIAL_SAVE")));
-    pauseonload = new QPushButton(tr("Pause on Load: ") + getOption(tr("PAUSE_ON_LOAD")));
-    compress = new QPushButton(tr("Compress Saves: ") + getOption(tr("COMPRESSED_SAVES")));
-    autobackup = new QPushButton(tr("Auto Backup: ") + getOption(tr("AUTOBACKUP")));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
+    autosave = new QPushButton(tr("Autosave: ") + DwarfFortress::instance().getOption(tr("AUTOSAVE")));
+    autopause = new QPushButton(tr("Autosave Pause: ") + DwarfFortress::instance().getOption(tr("AUTOSAVE_PAUSE")));
+    initsave = new QPushButton(tr("Initial Save: ") + DwarfFortress::instance().getOption(tr("INITIAL_SAVE")));
+    pauseonload = new QPushButton(tr("Pause on Load: ") + DwarfFortress::instance().getOption(tr("PAUSE_ON_LOAD")));
+    compress = new QPushButton(tr("Compress Saves: ") + DwarfFortress::instance().getOption(tr("COMPRESSED_SAVES")));
+    autobackup = new QPushButton(tr("Auto Backup: ") + DwarfFortress::instance().getOption(tr("AUTOBACKUP")));
     grid = new QGridLayout();
 
     connect(autosave, SIGNAL(pressed()), this, SLOT(autosave_pressed()));
@@ -96,9 +120,20 @@ SaveFrame::SaveFrame()
     setLayout(grid);
 }
 
+void SaveFrame::dataChanged()
+{
+    autosave->setText("Autosave: " + DwarfFortress::instance().getOption("AUTOSAVE"));
+    autopause->setText("Autosave Pause: " + DwarfFortress::instance().getOption("AUTOSAVE_PAUSE"));
+    initsave->setText("Initial Save: " + DwarfFortress::instance().getOption("INITIAL_SAVE"));
+    pauseonload->setText("Pause on Load: " + DwarfFortress::instance().getOption("PAUSE_ON_LOAD"));
+    compress->setText("Compress Saves: " + DwarfFortress::instance().getOption("COMPRESSED_SAVES"));
+    autobackup->setText("Auto Backup: " + DwarfFortress::instance().getOption("AUTOBACKUP"));
+}
+
 AdvancedFrame::AdvancedFrame()
 {
-    procpriority = new QPushButton(tr("Processor Priority: ") + getOption(tr("PRIORITY")));
+    connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dataChanged() ));
+    procpriority = new QPushButton(tr("Processor Priority: ") + DwarfFortress::instance().getOption(tr("PRIORITY")));
     soundframe = new SoundFrame();
     fpsframe = new FPSFrame();
     startupframe = new StartupFrame();
@@ -116,40 +151,45 @@ AdvancedFrame::AdvancedFrame()
     setLayout(grid);
 }
 
+void AdvancedFrame::dataChanged()
+{
+    procpriority->setText("Processor Priority: " + DwarfFortress::instance().getOption("PRIORITY"));
+}
+
 void SoundFrame::sound_pressed()
 {
-    if (getOption(tr("SOUND")) == tr("YES"))
-        setOption(tr("SOUND"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("SOUND")) == "YES")
+        DwarfFortress::instance().setOption(tr("SOUND"), "NO");
     else
-        setOption(tr("SOUND"), tr("YES"));
-    sound->setText(tr("Sound: ") + getOption(tr("SOUND")));
+        DwarfFortress::instance().setOption(tr("SOUND"), "YES");
+    sound->setText(tr("Sound: ") + DwarfFortress::instance().getOption(tr("SOUND")));
 }
 
 void FPSFrame::counter_pressed()
 {
-    if (getOption(tr("FPS")) == tr("YES"))
-        setOption(tr("FPS"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("FPS")) == "YES")
+        DwarfFortress::instance().setOption(tr("FPS"), "NO");
     else
-        setOption(tr("FPS"), tr("YES"));
-    counter->setText(tr("FPS Counter: ") + getOption(tr("FPS")));
+        DwarfFortress::instance().setOption(tr("FPS"), "YES");
+    counter->setText(tr("FPS Counter: ") + DwarfFortress::instance().getOption(tr("FPS")));
 }
 
 void StartupFrame::intro_pressed()
 {
-    if (getOption(tr("INTRO")) == tr("YES"))
-        setOption(tr("INTRO"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("INTRO")) == "YES")
+        DwarfFortress::instance().setOption(tr("INTRO"), "NO");
     else
-        setOption(tr("INTRO"), tr("YES"));
-    intro->setText(tr("Intro Movie: ") + getOption(tr("INTRO")));
+        DwarfFortress::instance().setOption(tr("INTRO"), "YES");
+    intro->setText(tr("Intro Movie: ") + DwarfFortress::instance().getOption(tr("INTRO")));
 }
 
 void StartupFrame::windowed_pressed()
 {
-    if (getOption(tr("WINDOWED")) == tr("YES"))
-        setOption(tr("WINDOWED"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("WINDOWED")) == "YES")
+        DwarfFortress::instance().setOption(tr("WINDOWED"), "NO");
     else
-        setOption(tr("WINDOWED"), tr("YES"));
-    windowed->setText(tr("Windowed: ") + getOption(tr("WINDOWED")));
+        DwarfFortress::instance().setOption(tr("WINDOWED"), "YES");
+    windowed->setText(tr("Windowed: ") + DwarfFortress::instance().getOption(tr("WINDOWED")));
 }
 
 void SaveFrame::autosave_pressed()
@@ -158,60 +198,60 @@ void SaveFrame::autosave_pressed()
     unsigned int newfrequency = 0;
     for (unsigned int i = 0; i < sizeof(frequencies)/sizeof(frequencies[0]); i++)
     {
-        if (frequencies[i] == getOption(tr("AUTOSAVE")))
+        if (frequencies[i] == DwarfFortress::instance().getOption(tr("AUTOSAVE")))
             {
                 newfrequency = i + 1;
             }
     }
     if (newfrequency > sizeof(frequencies)/sizeof(frequencies[0]) - 1)
         newfrequency = 0;
-    setOption(tr("AUTOSAVE"), frequencies[newfrequency]);
-    autosave->setText(tr("Autosave: ") + getOption(tr("AUTOSAVE")));
+    DwarfFortress::instance().setOption(tr("AUTOSAVE"), frequencies[newfrequency]);
+    autosave->setText(tr("Autosave: ") + DwarfFortress::instance().getOption(tr("AUTOSAVE")));
 }
 
 void SaveFrame::autopause_pressed()
 {
-    if (getOption(tr("AUTOSAVE_PAUSE")) == tr("YES"))
-        setOption(tr("AUTOSAVE_PAUSE"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("AUTOSAVE_PAUSE")) == "YES")
+        DwarfFortress::instance().setOption(tr("AUTOSAVE_PAUSE"), "NO");
     else
-        setOption(tr("AUTOSAVE_PAUSE"), tr("YES"));
-    autopause->setText(tr("Autosave Pause: ") + getOption(tr("AUTOSAVE_PAUSE")));
+        DwarfFortress::instance().setOption(tr("AUTOSAVE_PAUSE"), "YES");
+    autopause->setText(tr("Autosave Pause: ") + DwarfFortress::instance().getOption(tr("AUTOSAVE_PAUSE")));
 }
 
 void SaveFrame::initsave_pressed()
 {
-    if (getOption(tr("INITIAL_SAVE")) == tr("YES"))
-        setOption(tr("INITIAL_SAVE"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("INITIAL_SAVE")) == "YES")
+        DwarfFortress::instance().setOption(tr("INITIAL_SAVE"), "NO");
     else
-        setOption(tr("INITIAL_SAVE"), tr("YES"));
-    initsave->setText(tr("Initial Save: ") + getOption(tr("INITIAL_SAVE")));
+        DwarfFortress::instance().setOption(tr("INITIAL_SAVE"), "YES");
+    initsave->setText(tr("Initial Save: ") + DwarfFortress::instance().getOption(tr("INITIAL_SAVE")));
 }
 
 void SaveFrame::pauseonload_pressed()
 {
-    if (getOption(tr("PAUSE_ON_LOAD")) == tr("YES"))
-        setOption(tr("PAUSE_ON_LOAD"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("PAUSE_ON_LOAD")) == "YES")
+        DwarfFortress::instance().setOption(tr("PAUSE_ON_LOAD"), "NO");
     else
-        setOption(tr("PAUSE_ON_LOAD"), tr("YES"));
-    pauseonload->setText(tr("Pause on Load: ") + getOption(tr("PAUSE_ON_LOAD")));
+        DwarfFortress::instance().setOption(tr("PAUSE_ON_LOAD"), "YES");
+    pauseonload->setText(tr("Pause on Load: ") + DwarfFortress::instance().getOption(tr("PAUSE_ON_LOAD")));
 }
 
 void SaveFrame::compress_pressed()
 {
-    if (getOption(tr("COMPRESSED_SAVES")) == tr("YES"))
-        setOption(tr("COMPRESSED_SAVES"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("COMPRESSED_SAVES")) == "YES")
+        DwarfFortress::instance().setOption(tr("COMPRESSED_SAVES"), "NO");
     else
-        setOption(tr("COMPRESSED_SAVES"), tr("YES"));
-    compress->setText(tr("Compress Saves: ") + getOption(tr("COMPRESSED_SAVES")));
+        DwarfFortress::instance().setOption(tr("COMPRESSED_SAVES"), "YES");
+    compress->setText(tr("Compress Saves: ") + DwarfFortress::instance().getOption(tr("COMPRESSED_SAVES")));
 }
 
 void SaveFrame::autobackup_pressed()
 {
-    if (getOption(tr("AUTOBACKUP")) == tr("YES"))
-        setOption(tr("AUTOBACKUP"), tr("NO"));
+    if (DwarfFortress::instance().getOption(tr("AUTOBACKUP")) == "YES")
+        DwarfFortress::instance().setOption(tr("AUTOBACKUP"), "NO");
     else
-        setOption(tr("AUTOBACKUP"), tr("YES"));
-    autobackup->setText(tr("Auto Backup: ") + getOption(tr("AUTOBACKUP")));
+        DwarfFortress::instance().setOption(tr("AUTOBACKUP"), "YES");
+    autobackup->setText(tr("Auto Backup: ") + DwarfFortress::instance().getOption(tr("AUTOBACKUP")));
 }
 
 void AdvancedFrame::procpriority_pressed()
@@ -220,14 +260,14 @@ void AdvancedFrame::procpriority_pressed()
     priorities << "IDLE" << "BELOW_NORMAL" << "NORMAL" << "HIGH" << "REALTIME";
     unsigned int newpriority = 0;
     for(int i = 0; i < priorities.length(); ++i) {
-        if (priorities.at(i) == getOption("PRIORITY")) {
+        if (priorities.at(i) == DwarfFortress::instance().getOption("PRIORITY")) {
             newpriority = i + 1;
         }
     }
     if (newpriority > priorities.length() - 1)
         newpriority = 0;
-    setOption(tr("PRIORITY"), priorities[newpriority]);
-    procpriority->setText(tr("Processor Priority: ") + getOption(tr("PRIORITY")));
+    DwarfFortress::instance().setOption(tr("PRIORITY"), priorities[newpriority]);
+    procpriority->setText(tr("Processor Priority: ") + DwarfFortress::instance().getOption(tr("PRIORITY")));
 }
 
 void SoundFrame::volume_modified()
@@ -242,7 +282,7 @@ void SoundFrame::volume_modified()
         if (newvolume < 0)
             newvolume = 0;
         newvolumestring = QString::number(newvolume);
-        setOption(tr("VOLUME"), newvolumestring);
+        DwarfFortress::instance().setOption(tr("VOLUME"), newvolumestring);
     }
 }
 
@@ -258,7 +298,7 @@ void FPSFrame::cFPScap_modified()
         if (newcap < 0)
             newcap = 0;
         newcapstring = QString::number(newcap);
-        setOption(tr("FPS_CAP"), newcapstring);
+        DwarfFortress::instance().setOption(tr("FPS_CAP"), newcapstring);
     }
 }
 
@@ -274,7 +314,7 @@ void FPSFrame::gFPScap_modified()
         if (newcap < 0)
             newcap = 0;
         newcapstring = QString::number(newcap);
-        setOption(tr("G_FPS_CAP"), newcapstring);
+        DwarfFortress::instance().setOption(tr("G_FPS_CAP"), newcapstring);
     }
 }
 
@@ -290,7 +330,7 @@ void SoundFrame::volume_finished()
         if (newvolume < 0)
             newvolume = 0;
         newvolumestring = QString::number(newvolume);
-        setOption(tr("VOLUME"), newvolumestring);
+        DwarfFortress::instance().setOption(tr("VOLUME"), newvolumestring);
         volume->setText(newvolumestring);
     }
 }
@@ -307,7 +347,7 @@ void FPSFrame::cFPScap_finished()
         if (newcap < 0)
             newcap = 0;
         newcapstring = QString::number(newcap);
-        setOption(tr("FPS_CAP"), newcapstring);
+        DwarfFortress::instance().setOption(tr("FPS_CAP"), newcapstring);
         cFPScap->setText(newcapstring);
     }
 }
@@ -324,7 +364,7 @@ void FPSFrame::gFPScap_finished()
         if (newcap < 0)
             newcap = 0;
         newcapstring = QString::number(newcap);
-        setOption(tr("G_FPS_CAP"), newcapstring);
+        DwarfFortress::instance().setOption(tr("G_FPS_CAP"), newcapstring);
         gFPScap->setText(newcapstring);
     }
 }
