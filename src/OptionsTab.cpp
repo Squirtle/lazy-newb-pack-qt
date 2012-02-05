@@ -34,11 +34,11 @@ OptionsTab::OptionsTab( DFManagerPtr manager, QWidget * parent )
         options_layout->addWidget(b, i/2, i%2); // 2 is the number of columns
     }
 
-    NumericOptionWidget* num_opt = new NumericOptionWidget("POPULATION_CAP", "Population Cap", 1, this);
+    NumericOptionWidget* num_opt = new NumericOptionWidget("POPULATION_CAP", "Population Cap", 1, []() {QList<int> l; l << 999; return l;} (), this);
     num_opt->setTooltips(QStringList("Population Cap"));
     options_layout->addWidget(num_opt, options.length()/2, options.length()%2);
 
-    num_opt = new NumericOptionWidget("BABY_CHILD_CAP", "Child Cap", 2, this);
+    num_opt = new NumericOptionWidget("BABY_CHILD_CAP", "Child Cap", 2, []() {QList<int> l; l << 999 << 9999; return l;}(), this);
     num_opt->setTooltips([this]() { QStringList l; l << tr("Absolute cap on the number of babies+children") << tr("New child cap as percentage of total population"); return l;}());
     options_layout->addWidget(num_opt, (options.length()+1)/2, (1+options.length())%2);
 

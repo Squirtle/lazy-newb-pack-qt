@@ -11,7 +11,7 @@ class NumericOptionWidget : public QWidget
 {
     Q_OBJECT
 public:
-    NumericOptionWidget(const QString &option_name, const QString &pretty_label, int num_values, QWidget *parent = nullptr);
+    NumericOptionWidget(const QString &option_name, const QString &pretty_label, int num_values, QList<int> maxs, QWidget *parent = nullptr);
 
     void setTooltips(const QStringList &tips);
 
@@ -28,12 +28,13 @@ private:
 class NumberEditChain : public QWidget {
     Q_OBJECT
 public:
-    NumberEditChain(int num_edits, QWidget *parent = nullptr);
+    NumberEditChain(int num_edits, QList<int> maxs, QWidget *parent = nullptr);
     ~NumberEditChain() = default;
 
     int length() const;
 
     void setMinimum(int edit, int min);
+    void setMaximum(int edit, int max);
     void setTooltips(const QStringList &tips);
     void setTooltip(int edit, const QString &tooltip);
     void setValue(int edit, int value);

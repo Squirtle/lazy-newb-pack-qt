@@ -10,12 +10,13 @@
 
 #include <QDebug>
 
-NumberEditChain::NumberEditChain(int num_edits, QWidget *parent) : QWidget(parent)
+NumberEditChain::NumberEditChain(int num_edits, QList<int> maxs, QWidget *parent) : QWidget(parent)
 {
     QHBoxLayout* layout = new QHBoxLayout(this);
     for(int i = 0; i < num_edits; ++i) {
         m_edits.push_back(new QSpinBox(this));
         m_edits.at(i)->setMinimum(0);
+        m_edits.at(i)->setMaximum(maxs[i]);
         connect(m_edits.at(i), SIGNAL(valueChanged(int)), SIGNAL(valuesChanged()));
         layout->addWidget(m_edits.at(i));
     }
@@ -30,6 +31,12 @@ void NumberEditChain::setMinimum(int edit, int min)
 {
     Q_ASSERT(edit >=0 && edit < m_edits.length());
     m_edits.at(edit)->setMinimum(min);
+}
+
+void NumberEditChain::setMaximum(int edit, int max)
+{
+    Q_ASSERT(edit >=0 && edit < m_edits.length());
+    m_edits.at(edit)->setMaximum(max);
 }
 
 void NumberEditChain::setTooltips(const QStringList &tips)
@@ -67,13 +74,13 @@ QStringList NumberEditChain::values() const
     return list;
 }
 
-NumericOptionWidget::NumericOptionWidget(const QString &option_name, const QString &pretty_label, int num_values, QWidget *parent)
+NumericOptionWidget::NumericOptionWidget(const QString &option_name, const QString &pretty_label, int num_values, QList<int> maxs, QWidget *parent)
     : QWidget(parent)
     , m_option( option_name )
 {
     QFormLayout* layout = new QFormLayout(this);
     m_label = new QLabel(pretty_label, this);
-    m_numberEdit = new NumberEditChain(num_values);
+    m_numberEdit = new NumberEditChain(num_values, maxs);
     layout->addRow(m_label, m_numberEdit);
 
     connect( &DwarfFortress::instance(), SIGNAL( dataChanged() ), this, SLOT( dfDataChanged() ));
