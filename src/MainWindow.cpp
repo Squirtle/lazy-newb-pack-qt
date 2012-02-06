@@ -8,6 +8,7 @@
 #include "SetupTab.h"
 #include "InitEditorWidget.h"
 #include "GraphicsTab.h"
+#include "AdvancedTab.h"
 
 #include "LocalGameDataProvider.h"
 #include "DFDataManager.h"
@@ -64,6 +65,7 @@ void MainWindow::init()
         ui->tabs->AddTab(new OptionsTab(m_dataManager, this), IconLoader::load("configure"), tr("Options"));
         ui->tabs->AddTab(new InitEditorWidget(this), IconLoader::load("code-context"), tr("Init Editor"));
         ui->tabs->AddTab(new GraphicsTab(this), IconLoader::load("applications-graphics"), tr("Graphics"));
+        ui->tabs->AddTab(new AdvancedTab(m_dataManager, this), IconLoader::load("placeholder"), tr("Advanced")); //TODO: Add real icon.
         FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
         ui->tabs->SetMode(FancyTabWidget::Mode(default_mode));
     }

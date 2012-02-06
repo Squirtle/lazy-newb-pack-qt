@@ -42,7 +42,8 @@ HEADERS += functions.h lnplauncher.h optionsframe.h advancedframe.h graphicsfram
     DFDataManager.h \
     LocalKeybindsProvider.h \
     LocalKeybindsBundle.h \
-    GameDataModel.h
+    GameDataModel.h \
+    AdvancedTab.h
 
 SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe.cpp graphicsframe.cpp \
     DwarfFortress.cpp \
@@ -72,7 +73,8 @@ SOURCES += functions.cpp lnplauncher.cpp main.cpp optionsframe.cpp advancedframe
     DFDataManager.cpp \
     LocalKeybindsProvider.cpp \
     LocalKeybindsBundle.cpp \
-    GameDataModel.cpp
+    GameDataModel.cpp \
+    AdvancedTab.cpp
 
 
 FORMS += \
@@ -80,7 +82,8 @@ FORMS += \
     ui/OptionsTab.ui \
     ui/SetupTab.ui \
     ui/InitEditorWidget.ui \
-    ui/GraphicsTab.ui
+    ui/GraphicsTab.ui \
+    ui/AdvancedTab.ui
 
 RESOURCES += \
     ../fallback.qrc
