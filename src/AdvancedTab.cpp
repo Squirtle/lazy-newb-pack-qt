@@ -4,7 +4,6 @@
 #include "ConfigButton.h"
 #include "NumericOptionWidget.h"
 #include "DwarfFortress.h"
-#include "IInitsBundle.h"
 
 #include <QtilitiesCore>
 
