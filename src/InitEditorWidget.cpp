@@ -25,7 +25,7 @@ InitEditorWidget::~InitEditorWidget()
 void InitEditorWidget::on_buttonBox_clicked(QAbstractButton *button)
 {
    const QDialogButtonBox::ButtonRole role = ui->buttonBox->buttonRole(button);
-   if( role == QDialogButtonBox::ActionRole ) {
+   if( role == QDialogButtonBox::ResetRole ) {
        //reset / reload
        read_files();
    } else if( role == QDialogButtonBox::AcceptRole ) {
