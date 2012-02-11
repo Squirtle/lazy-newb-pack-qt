@@ -43,6 +43,7 @@ KeybindsWidget::KeybindsWidget(QWidget *parent) :
     hints->setDisplayFlagsHint(Qtilities::Core::ObserverHints::ItemView);
     hints->setHierarchicalDisplayHint(Qtilities::Core::ObserverHints::FlatHierarchy);
     observer_widget->setCustomHints(hints);
+    observer_widget->toggleUseObserverHints(false);
     observer_widget->initialize();
     observer_widget->tableView()->horizontalHeader()->hide();
     observer_widget->tableView()->verticalHeader()->hide();
