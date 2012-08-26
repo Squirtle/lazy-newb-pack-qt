@@ -4,7 +4,8 @@ Currently, the only operating system supported is Linux, but support for OS X an
 
 Dependencies
 ------------
-The only dependency for the qt Lazy Newb Pack GUI is qt 4.8, though Dwarf Fortress itself requires GTK+ 2+, SDL 1.2+, and SDL\_image. Since you will need to compile the qt LNP GUI, you will need the qt headers as well. If you are using a distribution which separates these from the main package, such as Ubuntu or Debian, this means installing the dev package.
+The only dependency for the Qt Lazy Newb Pack GUI is Qt 4.8, though Dwarf Fortress itself requires GTK+ 2+, SDL 1.2+, and SDL\_image. Since you will need to compile the qt LNP GUI, you will need the qt headers as well. If you are using a distribution which separates these from the main package, such as Ubuntu or Debian, this means installing the dev package.
+The Qt Lazy Newb Pack GUI makes use of C++11 features such as lambda functions, so you will need at least gcc 4.5 to compile it.
 
 Compile
 -------
